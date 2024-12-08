@@ -1,79 +1,733 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+    background: linear-gradient(45deg , #C297E3,#C2BCF9 70.71%);
+    background-repeat: no-repeat;
+    margin:0;
+    padding: 0;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+   /*  height: 100vh; */
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
 }
-
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+    text-decoration: none;
+    color: white;
 }
-a:hover {
-  color: #535bf2;
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+nav{
+    width:95%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    top: 10px;
+}
+#nav2{
+    width:100%;
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    right: 6%;
+    top: 10px;
+}
+#iconesCompte, #iconesLogo{
+    position: relative;
+}
+#iconesLogo{
+    width: 75px;
+    height: 75px;
+}
+#iconesCompte{
+    padding-top: 40px;
+    width: 37px;
+    height: 37px;
+}
+#compteBlanc, #compteOrange , #logoBlanc, #logoOrange{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity ease 0.2s;
+    transform: scale(0.9);
+}
+#compteOrange , #logoOrange{
+    opacity: 0;
+}
+#iconesCompte:hover #compteOrange , #iconesLogo:hover #logoOrange{
+    opacity: 1;
+    cursor: pointer;
+}
+#iconesCompte:hover #compteBlanc, #iconesLogo:hover #logoBlanc{
+    opacity: 0;
+}
+h1{
+    font-family: "Asset", serif;
+    font-weight: 400;
+    font-style: normal;
+    color : white;
+    text-align: center;
+    max-width: 800px;
+}
+#titreAccueil, #titreIntro{
+    font-size: 2.5rem;
+}
+#titreIntro{
+    margin-bottom: 50px;
+    max-width: 650px;
+}
+.intro{
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: white;
+    font-size: 1rem;
+    max-width: 50%;
+    margin-bottom: 80px;
+    letter-spacing: 1px;
+    line-height: 1.4rem;
+}
+.bouton{
+    height: 60px;
+    width: 300px;
+    border-radius: 50px;
+    background-color: #FF6C03;
+    color:white;
+    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    border: 0.5px solid #7d36036c ;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    overflow: hidden; 
+    backdrop-filter: blur(10px);
+}
+.grosBouton{
+    font-size: 1.6rem;
+    margin-block: 20px;;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+@keyframes battement {
+    to {
+        box-shadow:15px 0 0 5px rgba(255, 109, 5, 0.52), -15px 0 0 5px  hsla(25, 100%, 51%, 0.457);
+    }
+}
+@keyframes battementBlanc {
+    to {
+        box-shadow:15px 0 0 5px rgba(255, 255, 255, 0.52), -15px 0 0 5px  hsla(30, 33%, 99%, 0.457);
+    }
+}
+.Ombre{
+    width: 350px;
+    height: 70px;
+    background-color: hsla(25, 100%, 51%, 0.186);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    /* margin-top: 30px; */
+    border: 0.5px solid #FF6C03 ;
+}
+.hoverOmbre{
+    :hover{
+        animation: battement 1.5s infinite cubic-bezier(0.075, 0.82, 0.165, 1);
+        cursor: pointer;
+    }
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+footer{
+    position: absolute;
+    color: white;
+    display: flex;
+    gap: 30px;
+    font-size: 1rem;
+    bottom:0;
+    left:50px;
+    letter-spacing: 1px;
+    :hover{
+        color:#FF6C03;
+    }
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* -----------------PAGE QUESTION QUIZ ---------------PAGE QUESTION QUIZ -----------PAGE QUESTION QUIZ -------------*/
+#pagination{
+    position:absolute;
+    left: 6%;
+    top:35px;
+    height: 190px;
+    width: 45px;
+    background-color: rgba(255, 255, 255, 0.236);
+    border-radius: 50px;
+    border: 1.5px solid white;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:40px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.674) rgba(255, 255, 255, 0.024);
+    padding-block: 20px;
+    .page{
+        background-image: url('../icones/page2.svg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 37px;
+        width: 18.47px;
+        /* transform: scale(0.6); */
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        /* padding-block: 5px; */
+        :hover {
+            cursor: pointer;
+        }
+        .numero{
+            font-size: smaller;
+        }
+    }
 }
-button:hover {
-  border-color: #646cff;
+.deselecte{
+    opacity: 0.4;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+#question{
+    font-size: 1.4rem;
+    text-align: start;
+    margin-bottom: 30px;;
+}
+#image{
+    height: 353px;
+    width:  353px;
+    background-image: url('../Images_DallE/yeux_doux.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+}
+.ombreSuivant{
+    width: 350px;
+    height: 70px;
+    background-color:rgba(255, 255, 255, 0.368);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    /* margin-top: 30px; */
+    border: 2px solid white ;
+    opacity: normal;
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top:25%;
+}
+.boutonSuivant{
+    height: 60px;
+    width: 300px;
+    border-radius: 50px;
+    background-color:rgba(255, 255, 255, 0.79); 
+    color:#FF6C03;
+    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    border: 1px solid #FF6C03;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    p{
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+}
+ /* Masquer l'input */
+input[type="radio"] {
+    display: none;
+}
+/* Style par défaut pour le texte, necessaire? */
+
+/* Appliquer les styles quand l'input est coché */
+input[type="radio"]:checked + .Ombre{
+    background-color:rgba(255, 255, 255, 0.368);
+    border: 2px solid white ;
+    backdrop-filter: blur(10px);
 }
 
-.card {
-  padding: 2em;
+input[type="radio"]:checked + .Ombre .bouton {
+    background-color:rgba(255, 255, 255, 0.79); 
+    color:#FF6C03;
+    border: 1px solid #FF6C03;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/*todo: retirer effet de battement sur checked,
+/*todo changer p pour label html et css
+/*todo et classe bouton avant le label
+/*-----------*/
+.suivantHidden{
+    display:none;
+}
+.propositions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2;
+    width: 800px;
+    height: 180px;
+}
+#proposition1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#proposition2{
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 40px;
+}
+#proposition3{
+    grid-column: 1;
+    grid-row: 2;
+}
+#proposition4{
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: 40px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.propositiontexte{
+    max-width: 260px;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    text-align: center;
 }
+
+input[type="radio"] {
+    display: none;
+}
+#signalement{
+    height:30px;
+    width: 30px;
+    position: absolute;
+    bottom: 2%;
+    right: 5%;
+}
+#signalement:hover {
+    cursor: pointer;
+}
+/* background-color: rgba(255, 255, 255, 0.236);
+    border: 0.5px solid white ;
+    color: #FF6C03 ; */
+
+/* ------PAGE INSCRIPTION-------PAGE INSCRIPTION-------------PAGE INSCRIPTION--- */
+/*TODO: avoir l'icone compte en orange depuis cette page comme les autres relative au compte*/
+.consigne{
+    margin-top: -20px;
+}
+fieldset{
+    border: none;
+    div{
+        display:flex;
+        flex-direction: column;
+    }
+    label{ 
+        padding-block: 10px;
+    }
+}
+input[type="text"], input[type="email"], input[type="password"]{
+    border-radius: 20px;
+    height: 50px;
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.473);
+    border: none;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    color:white;
+    font-size: medium;
+    padding-inline: 10px;
+}
+/* input:focus {
+    
+}
+select:focus{
+    box-shadow: 0px 2px 2px #ff6c0374;
+} */
+input:focus, textarea {
+    box-shadow: 0px 4px 4px #ff6c0374;
+    outline: none;
+}   
+select:focus {
+    background-color: rgba(255, 255, 255, 0.473);
+}
+#labelForm{
+    font-size: 1.2em;
+    font-weight: 400;
+}
+#boutonForm{
+    margin-top: 20px;
+}
+.redirection{
+    position: absolute;
+    bottom:0;
+    span{
+        text-decoration: underline;
+        :hover {
+            cursor: pointer;
+        }
+    }
+}
+
+/* ------PAGE INSCRIPTION-------PAGE INSCRIPTION-------------PAGE INSCRIPTION--- */
+/* ------PAGE CONNEXION-------PAGE CONNEXION-------------PAGE CONNEXION--- */
+#connexion{
+    margin-top: 80px;
+}
+
+#pwd{
+    text-align: end;
+    text-decoration: underline; /*! l'underline est blanc au lieu de couleur placeholder */
+    margin-left: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* ------PAGE CONNEXION-------PAGE CONNEXION-------------PAGE CONNEXION--- */
+/* ------FORMULAIRE CRÉATION QUIZ PAGE 1-------FORMULAIRE CRÉATION QUIZ PAGE 1-------------FORMULAIRE CRÉATION QUIZ PAGE 1--- */
+.lienUnderline{
+    text-decoration: underline;
+    font-weight: 500;
+}
+#contener{
+    max-width: 60%;
+    letter-spacing: 1px;
+    line-height: 1.4rem;
+    height: auto;
+    ol{
+        padding-left: 20px;
+        margin-top: -15px;
+    }
+    form{
+        display:block;
+        margin-left: -10px;
+        input[type="text"]{
+            width:60%;
+            margin-top: 10px;
+        }
+        label, h2{
+            margin-top: 20px;
+            font-weight: 500;
+            font-size: 1.3rem;
+            line-height: normal;
+            display: block;
+        }
+        .inlineBlock {        
+            display: inline;
+            font-size: 1rem;
+            font-weight: 300;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+        input[type='radio']{
+            padding: 0;
+            appearance: none;
+            display:inline-flex;
+            box-shadow: none;
+        }
+        .custom-radio {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white; /* Bordure de base */
+            border-radius: 5px;
+            background-color:  #f3f7fb88;; 
+            cursor: pointer;
+            position: relative;
+        }
+        input[type="radio"]:checked + .custom-radio {
+            background-color: #f3f7fb88; /* Couleur de fond quand coché */
+            border:2px solid white;
+        }
+          /* Ajouter un point au centre quand coché */
+        input[type="radio"]:checked + .custom-radio::after {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: white; /* Couleur du point */
+            border-radius: 2px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .gridBlock{
+            display: grid;
+            grid-template-columns: 55% 20% 20%;
+            width: 100%;
+            #propIllu{
+                grid-column: 1;
+            }
+            #divAvecImage{
+                grid-column: 2;
+                margin-top: 10px;
+            }
+            #divSansImage{
+                margin-top: 10px;
+                grid-column: 3;
+            }
+        }
+        .explication{
+            margin: 0;
+        }
+        textarea{
+            border-radius: 20px;
+            height: 100px;
+            width: 500px;
+            background-color: rgba(255, 255, 255, 0.473);
+            border: none;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+            color:white;
+            font-size: medium;
+            padding: 10px;
+            resize : none;
+            font-family: "Rubik", sans-serif;
+            font-size: 1rem;
+            line-height: normal;
+        }
+        #boutonForm{
+            margin-left: 20%;;
+            #buttonPromptImage{
+                font-family: "Rubik", sans-serif;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+        }
+        #retourPrompt{
+            margin-left: 20%;
+            height:300px;
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.408);
+        }
+        #gridNbrReponse{
+            width: 100%;
+            min-width:650px;
+            max-width: 650px;
+            margin-bottom: 50px;
+            display: grid;
+          /*   height: 600px; */
+            grid-template-columns: 12% 88%;
+            grid-template-rows:  repeat(5, auto) ;
+            #radio1{
+                grid-row: 1;
+                grid-column: 1;
+            }
+            .Ombre{
+                width: 250px;
+                height: 60px;
+                .bouton{
+                    height: 50px;
+                    width: 220px;
+                }
+            }
+            #row1{
+                grid-row: 1;
+                grid-column: 2;
+                display:flex;
+                flex-direction: row;
+                flex-wrap:wrap;
+                gap: 20px 40px;
+            }
+            #row2{
+                height:10px;
+                width: 550px;
+                grid-row: 2;
+                grid-column: 2;
+                border-bottom: 2px solid white;
+                margin-bottom: 20px;
+                position: relative;
+            }
+            .buleOu{
+                border: 1.5px solid white;
+                height:25px;
+                width: 70px;
+                border-radius: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                left:240px;
+               /*  margin-left:150px; */
+                background-color: rgba(255, 255, 255, 0.168);
+                backdrop-filter: blur(50px);
+            }
+            #radio2{
+                grid-row: 3;
+                grid-column: 1;
+            }
+            #row3{
+                grid-row: 3;
+                grid-column: 2;
+                display:flex;
+                flex-direction: row;
+                flex-wrap:wrap;
+                gap: 20px 40px;
+                position: relative;
+            }
+            #row3div3{
+                margin-left:150px;
+            }
+            #row4{
+                border-bottom: 2px solid white;
+                margin-block: 20px;
+                position: relative;
+                height:10px;
+                width: 550px;
+                grid-row: 4;
+                grid-column: 2;
+            }
+            #radio3{
+                grid-row: 5;
+                grid-column: 1;
+            }
+            #row5{
+                display:flex;
+                flex-direction: row;
+                flex-wrap:wrap;
+                gap: 20px 40px;
+                grid-row: 5;
+                grid-column: 2;
+            }
+        }
+        #gridRedacReponse{
+          /*   margin-bottom: 200px;; */
+            display: grid;
+            grid-template-columns: 80% 20%;
+            grid-template-rows: 1fr 1fr;
+            
+            width:550px;
+            .mediumSize{
+                font-size: 1rem;
+            }
+            input[type="text"]{
+                width: 400px;
+                margin: 0;
+            }
+        }
+        #redacInput1{
+            grid-column: 1;
+            grid-row: 1;
+        }
+        #redacScore1{
+            padding-bottom: 5px;
+            display:flex;
+            flex-direction: row;
+            align-items: end;
+            justify-content: space-around;
+            grid-column: 2;
+            grid-row: 1;
+        }
+        #redacInput2{
+            grid-column: 1;
+            grid-row: 2;
+        }
+        #redacScore2{
+            padding-bottom: 5px;
+            display:flex;
+            flex-direction: row;
+            align-items: end;
+            justify-content: space-around;
+            grid-column: 2;
+            grid-row: 2;
+        }
+        .fleche{
+            height: 25px;
+            padding-bottom: 8px;
+        }
+        .score{
+            background-color: #FF6C03;
+            height: 40px;
+            width: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        #divBoutons{
+            display:flex;
+            flex-direction: row;
+            width: fit-content;
+            gap:20px;
+            margin-top: 50px;
+            margin-bottom: 100px;
+            input[type="button"]{
+                letter-spacing: 0.5;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+        }
+        a{
+            border-radius: 50px;
+        }
+    } 
+}
+.OmbreBlanc{
+    width: 350px;
+    height: 70px;
+    /* background-color: hsla(25, 100%, 51%, 0.186); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    /* margin-top: 30px; */
+    border: 0.5px solid #FF6C03 ;
+} 
+.hoverOmbreBlanc{
+    :hover{
+        animation: battementBlanc 1.5s infinite cubic-bezier(0.075, 0.82, 0.165, 1);
+        cursor: pointer;
+    }
+}
+.boutonBlanc{
+    height: 60px;
+    width: 300px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.441);
+    color:#FF6C03;
+    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    border: 2px solid #FF6C03 ;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    overflow: hidden; 
+    backdrop-filter: blur(50px);
+} 
+
+/* ------FORMULAIRE CRÉATION QUIZ PAGE 1-------FORMULAIRE CRÉATION QUIZ PAGE 1-------------FORMULAIRE CRÉATION QUIZ PAGE 1--- */
+/* ------FORMULAIRE CRÉATION RESULTATS-------FORMULAIRE CRÉATION RESULTATS-------------FORMULAIRE CRÉATION RESULTATS--- */
+
+ul{
+    margin:0;
+}
+
+/* ------FORMULAIRE CRÉATION RESULTATS-------FORMULAIRE CRÉATION RESULTATS-------------FORMULAIRE CRÉATION RESULTATS--- */
