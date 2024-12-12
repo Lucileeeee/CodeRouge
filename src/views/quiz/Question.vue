@@ -1,5 +1,4 @@
 <template>
-  <main>
     <div id="pagination">
         <div class="page"><p class="numero">1</p></div>
         <div class="page deselecte"><p class="numero">2</p></div>
@@ -11,9 +10,7 @@
         <div class="page deselecte"><p class="numero">1</p></div>
         <div class="page deselecte"><p class="numero">1</p></div>
     </div>
-    <div id="image">
-        
-    </div>
+    <div id="image"></div>
     <div class="ombreSuivant suivantHidden">
         <div class="boutonSuivant">
             <p>
@@ -22,7 +19,7 @@
         </div>
     </div>
     <h1 id="question">
-        As-tu déjà fais les yeux doux à un.e inconnu.e pendant un rencart ?     
+        As-tu déjà fais les yeux doux à un.e inconnu.e pendant un rencart avec chéri.e?     
     </h1>
     <div class="propositions">
         <input type="radio" id="toggle1" name="reponse">
@@ -60,10 +57,9 @@
     </div>
     <div id="signalement">
         <a href="signalement">
-            <img src="../../assets/icones/signal2.svg" id="signalement">
+            <img src="../../assets/icones/signal3.svg" id="signalement">
         </a>
     </div>
-</main>
 </template>
 
 <script setup lang='js'>

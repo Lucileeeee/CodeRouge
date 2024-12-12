@@ -17,7 +17,8 @@ const router = createRouter({
         {
             path: '/Question',
             name: 'Question',
-            component: () => import('../views/quiz/Question.vue')
+            component: () => import('../views/quiz/Question.vue'),
+            meta: { hideFooter: true ,  navbarId: 'nav2'}
         },
         {
             path: '/IntroQuiz',
@@ -27,17 +28,14 @@ const router = createRouter({
         {
             path: '/Connexion',
             name: 'Connexion',
-            component: () => import('../views/formulaire/Connexion.vue')
+            component: () => import('../views/formulaire/Connexion.vue'),
+            meta: { hideFooter: true }
         },
         {
             path: '/Inscription',
             name: 'Inscription',
-            component: () => import('../views/formulaire/Inscription.vue')
-        },
-        {
-            path: '/Inscription',
-            name: 'Inscription',
-            component: () => import('../views/formulaire/Inscription.vue')
+            component: () => import('../views/formulaire/Inscription.vue'),
+            meta: { hideFooter: true }
         },
         {
             path: '/CreationQuestion',
