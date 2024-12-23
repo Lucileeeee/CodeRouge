@@ -28,7 +28,6 @@ body{
   font-style: normal;
   color: white;
   min-height: 100vh;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -27,7 +27,7 @@ nav{
     display: flex;
     justify-content: space-between;
     top: 10px;
-/*     background-color: blue; */
+    left: 2.5%;
 }
 #nav2{
     width:100%;
@@ -35,8 +35,8 @@ nav{
     display: flex;
     gap: 20px;
     justify-content: end;
-    right: 6%;
-    top: 10px;
+    top: 25px;
+    left: -5%;
 }
 #iconesCompte, #iconesLogo{
     position: relative;
