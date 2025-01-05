@@ -11,8 +11,9 @@
         <div class="page deselecte"><p class="numero">1</p></div>
     </div>
     <p id="titeQuiz">Suis-je un trou d'Bal ?</p>
-    <div id="image"></div>
-    <div class="ombreSuivant suivantHidden">
+    
+    <div id="image" :style="{opacity: imageOpacity}"></div>
+    <div class="ombreSuivant" :style="{display: boutonSuivant}">
         <div class="boutonSuivant">
             <p>
                 Question Suivante
@@ -23,8 +24,8 @@
         As-tu déjà fais les yeux doux à un.e inconnu.e pendant un rencart avec chéri.e?     
     </h1>
     <div class="propositions">
-        <input type="radio" id="toggle1" name="reponse">
-        <div class="Ombre hoverOmbre" id="proposition1">
+        <input type="radio" id="toggle1" name="reponse" >
+        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition1" @click="affichageChanger">
             <div class="bouton">
                 <label for="toggle1" class="propositiontexte">
                     Jamais de la vie !  
@@ -32,7 +33,7 @@
             </div>
         </div> 
         <input type="radio" id="toggle2" name="reponse">
-        <div class="Ombre hoverOmbre" id="proposition2">
+        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition2" @click="affichageChanger">
             <div class="bouton">
                 <label for="toggle2" class="propositiontexte">
                     J’avoue le.a serveur.euse la dernière fois...
@@ -40,7 +41,7 @@
             </div>
         </div> 
         <input type="radio" id="toggle3" name="reponse">
-        <div class="Ombre hoverOmbre" id="proposition3">
+        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition3" @click="affichageChanger">
             <div class="bouton">
                 <label for="toggle3" class="propositiontexte">
                     C’est un kink avec ma moitié, nous jugez pas 
@@ -48,7 +49,7 @@
             </div>
         </div> 
         <input type="radio" id="toggle4" name="reponse">
-        <div class="Ombre hoverOmbre" id="proposition4">
+        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition4" @click="affichageChanger">
             <div class="bouton">
                 <label for="toggle4" class="propositiontexte">
                     Matter juste un cul qui passe c’est pas faire les yeux doux?    
@@ -66,6 +67,26 @@
 <script setup lang='js'>
 import { computed, watch, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
+
+/* class suivantHidden-> display none/ flex */
+const imageOpacity = ref( "1");
+const select = ref(false);
+const boutonSuivant = ref("none");
+
+
+function affichageChanger(){
+    if (!select.value){
+        console.log('État du booléen :', select.value);
+        imageOpacity.value = "0.5";
+        boutonSuivant.value = "flex";
+    } else if (select.value){
+        imageOpacity.value = "1";
+        boutonSuivant.value = "none";
+        console.log('État du booléen :', select.value);
+    }
+    select.value = !select.value;
+}
 
 </script>
 
@@ -113,7 +134,7 @@ import { RouterLink } from 'vue-router'
 #question{
     font-size: 1.4rem;
     text-align: start;
-    margin-bottom: 30px;;
+    margin-bottom: 30px;
 }
 #titeQuiz{
     margin-bottom: 0;
@@ -165,6 +186,9 @@ import { RouterLink } from 'vue-router'
         font-weight: 500;
     }
 }
+.suivantHidden{
+    display:none;
+}
  /* Masquer l'input */
 input[type="radio"] {
     display: none;
@@ -174,21 +198,19 @@ input[type="radio"] {
 - action au click vue*/
 
 /* Appliquer les styles quand l'input est coché */
-input[type="radio"]:checked + .Ombre{
+.inputChecked + .Ombre{
     background-color:rgba(255, 255, 255, 0.368);
     border: 2px solid white ;
     backdrop-filter: blur(10px);
 }
 
-input[type="radio"]:checked + .Ombre .bouton {
+.inputChecked + .Ombre .bouton {
     background-color:rgba(255, 255, 255, 0.79); 
     color:#FF6C03;
     border: 1px solid #FF6C03;
 }
 
-.suivantHidden{
-    display:none;
-}
+
 .propositions{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -236,6 +258,4 @@ input[type="radio"] {
 #signalement:hover {
     cursor: pointer;
 }
-
-
 </style>
