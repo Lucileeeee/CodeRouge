@@ -3,17 +3,11 @@
         <div class="page"><p class="numero">1</p></div>
         <div class="page deselecte"><p class="numero">2</p></div>
         <div class="page deselecte"><p class="numero">3</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">1</p></div>
     </div>
     <p id="titeQuiz">Suis-je un trou d'Bal ?</p>
     
     <div id="image" :style="{opacity: imageOpacity}"></div>
-    <div class="ombreSuivant" :style="{display: boutonSuivant}">
+    <div class="ombreSuivant" v-show="boutonSuivant">
         <div class="boutonSuivant">
             <p>
                 Question Suivante
@@ -25,34 +19,34 @@
     </h1>
     <div class="propositions">
         <input type="radio" id="toggle1" name="reponse" >
-        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition1" @click="affichageChanger">
-            <div class="bouton">
+        <div class="Ombre" :class ="{'inputCheckedOmbre' : select1, 'hoverOmbre': !select1}" id="proposition1" @click="affichageChanger(1)">
+            <div class="bouton" :class="{'inputCheckedBouton' :select1}">
                 <label for="toggle1" class="propositiontexte">
                     Jamais de la vie !  
                 </label>
             </div>
         </div> 
         <input type="radio" id="toggle2" name="reponse">
-        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition2" @click="affichageChanger">
-            <div class="bouton">
+        <div class="Ombre" :class ="{'inputCheckedOmbre' : select2, 'hoverOmbre': !select2}" id="proposition2" @click="affichageChanger(2)">
+            <div class="bouton" :class="{'inputCheckedBouton' : select2}">
                 <label for="toggle2" class="propositiontexte">
                     J’avoue le.a serveur.euse la dernière fois...
                 </label>
             </div>
         </div> 
         <input type="radio" id="toggle3" name="reponse">
-        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition3" @click="affichageChanger">
-            <div class="bouton">
+        <div class="Ombre" :class ="{'inputCheckedOmbre' : select3, 'hoverOmbre': !select3}" id="proposition3" @click="affichageChanger(3)">
+            <div class="bouton" :class="{'inputCheckedBouton' : select3}">
                 <label for="toggle3" class="propositiontexte">
-                    C’est un kink avec ma moitié, nous jugez pas 
+                    C'est un kink avec ma moitié, nous jugez pas  
                 </label> 
             </div>
         </div> 
         <input type="radio" id="toggle4" name="reponse">
-        <div class="Ombre" :class ="{'hoverOmbre': !select}" id="proposition4" @click="affichageChanger">
-            <div class="bouton">
+        <div class="Ombre" :class ="{'inputCheckedOmbre' : select4, 'hoverOmbre': !select4}" id="proposition4" @click="affichageChanger(4)">
+            <div class="bouton" :class="{'inputCheckedBouton' : select4}">
                 <label for="toggle4" class="propositiontexte">
-                    Matter juste un cul qui passe c’est pas faire les yeux doux?    
+                    Mattez juste un cul qui passe c'est pas faire les yeux doux?    
                 </label>      
             </div>
         </div> 
@@ -71,26 +65,56 @@ import { ref } from 'vue'
 
 /* class suivantHidden-> display none/ flex */
 const imageOpacity = ref( "1");
-const select = ref(false);
-const boutonSuivant = ref("none");
+const select1 = ref(false);
+const select2 = ref(false);
+const select3 = ref(false);
+const select4 = ref(false);
+const boutonSuivant = ref(false);
+/* si un booleen true : bouton suivant true, sinon false ET image opacity 0.5, sinon 1.
+-> une fonction 
+pour chaque bouton si son booleen est true, on retire hoverOmbre, sinon on remet
 
+si un bouton à true les autres peuvent pas etre true aussi
+-> tableau de bool, si un est true, les autres passent a falses
+*/
 
-function affichageChanger(){
-    if (!select.value){
-        console.log('État du booléen :', select.value);
+function affichageChanger(uneCard){
+   /*  imageOpacity.value = "0.5";
+    boutonSuivant.value = "flex"; */
+    if(uneCard === 1){
+        select1.value = !select1.value;
+        console.log('État du booléen 1:', select1.value);
         imageOpacity.value = "0.5";
-        boutonSuivant.value = "flex";
-    } else if (select.value){
+        boutonSuivant.value = true;
+    } else if (uneCard === 2){
+        select2.value = !select2.value;
+        console.log('État du booléen 2:', select2.value);
+        imageOpacity.value = "0.5";
+        boutonSuivant.value = true;
+    }else if (uneCard === 3){
+        select3.value = !select3.value;
+        console.log('État du booléen 3:', select3.value);
+        imageOpacity.value = "0.5";
+        boutonSuivant.value = true;
+    }else if (uneCard === 4){
+        select4.value = !select4.value;
+        console.log('État du booléen 4:', select4.value);
+        imageOpacity.value = "0.5";
+        boutonSuivant.value = true;
+    } if (!select1.value && !select2.value && !select3.value && !select4.value){
+        console.log('État de TOUS LES booléens :', select1.value, select2.value, select3.value, select4.value);
         imageOpacity.value = "1";
-        boutonSuivant.value = "none";
-        console.log('État du booléen :', select.value);
+        boutonSuivant.value = false;
     }
-    select.value = !select.value;
 }
 
 </script>
 
 <style scoped lang="css">
+/* todo: 
+curser pointer sur class bouton pas sur hover -> donner à bouton suivant 
+*/
+
 #pagination{
     position:absolute;
     left: 6%;
@@ -198,13 +222,13 @@ input[type="radio"] {
 - action au click vue*/
 
 /* Appliquer les styles quand l'input est coché */
-.inputChecked + .Ombre{
+.inputCheckedOmbre{
     background-color:rgba(255, 255, 255, 0.368);
     border: 2px solid white ;
     backdrop-filter: blur(10px);
 }
 
-.inputChecked + .Ombre .bouton {
+.inputCheckedBouton {
     background-color:rgba(255, 255, 255, 0.79); 
     color:#FF6C03;
     border: 1px solid #FF6C03;
