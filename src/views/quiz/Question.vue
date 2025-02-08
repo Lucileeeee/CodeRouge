@@ -1,8 +1,11 @@
 <template>
     <div id="pagination">
-        <div class="page"><p class="numero">1</p></div>
-        <div class="page deselecte"><p class="numero">2</p></div>
-        <div class="page deselecte"><p class="numero">3</p></div>
+        <div class="page"
+        v-for="index in tabQuiz.length"
+        :key="index"
+        :class ="{'deselecte': index !== 1}">
+            <p class="numero">{{ index }}</p>
+        </div>
     </div>
     <p id="titeQuiz">Suis-je un trou d'Bal ?</p>
     
@@ -25,7 +28,7 @@
                     Jamais de la vie !  
                 </label>
             </div>
-        </div> 
+        </div>  
         <input type="radio" id="toggle2" name="reponse">
         <div class="Ombre" :class ="{'inputCheckedOmbre' : select2, 'hoverOmbre': !select2}" id="proposition2" @click="affichageChanger(2)">
             <div class="bouton" :class="{'inputCheckedBouton' : select2}">
@@ -62,50 +65,42 @@
 import { computed, watch, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
+import pagination from './Pagination.vue' 
+import {tabQuiz, tableauQuiz } from './ObjetQuiz.vue' 
 
-/* class suivantHidden-> display none/ flex */
+
 const imageOpacity = ref( "1");
+const boutonSuivant = ref(false);
 const select1 = ref(false);
 const select2 = ref(false);
 const select3 = ref(false);
 const select4 = ref(false);
-const boutonSuivant = ref(false);
-/* si un booleen true : bouton suivant true, sinon false ET image opacity 0.5, sinon 1.
--> une fonction 
-pour chaque bouton si son booleen est true, on retire hoverOmbre, sinon on remet
 
-si un bouton à true les autres peuvent pas etre true aussi
--> tableau de bool, si un est true, les autres passent a falses
-*/
+function resetBool(){
+    select1.value = false;
+    select2.value = false;
+    select3.value = false;
+    select4.value = false; 
+}
+
+function afficherBoutonSuivant(){
+    imageOpacity.value = "0.5";
+    boutonSuivant.value = true;
+}
 
 function affichageChanger(uneCard){
-   /*  imageOpacity.value = "0.5";
-    boutonSuivant.value = "flex"; */
+    resetBool();
     if(uneCard === 1){
         select1.value = !select1.value;
-        console.log('État du booléen 1:', select1.value);
-        imageOpacity.value = "0.5";
-        boutonSuivant.value = true;
     } else if (uneCard === 2){
         select2.value = !select2.value;
-        console.log('État du booléen 2:', select2.value);
-        imageOpacity.value = "0.5";
-        boutonSuivant.value = true;
     }else if (uneCard === 3){
         select3.value = !select3.value;
-        console.log('État du booléen 3:', select3.value);
-        imageOpacity.value = "0.5";
-        boutonSuivant.value = true;
     }else if (uneCard === 4){
         select4.value = !select4.value;
-        console.log('État du booléen 4:', select4.value);
-        imageOpacity.value = "0.5";
-        boutonSuivant.value = true;
-    } if (!select1.value && !select2.value && !select3.value && !select4.value){
-        console.log('État de TOUS LES booléens :', select1.value, select2.value, select3.value, select4.value);
-        imageOpacity.value = "1";
-        boutonSuivant.value = false;
     }
+    console.log(select1.value, select2.value, select3.value, select4.value);
+    afficherBoutonSuivant();
 }
 
 </script>
@@ -209,6 +204,9 @@ curser pointer sur class bouton pas sur hover -> donner à bouton suivant
         font-size: 1.1rem;
         font-weight: 500;
     }
+}
+.boutonSuivant:hover{
+    cursor: pointer;
 }
 .suivantHidden{
     display:none;
