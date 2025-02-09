@@ -11,11 +11,10 @@ export default function pagination() {
   console.log('coucou');
   //toggle de la class "deselecte"
   // avancer au milieu avec exception pour le premier et le dernier
+  // on peut revenir en arrière, puis en avant jusqu'à là où on a repondu,
+  // mais pas aller en avant
 }
-/* v-for question dans quiz(objet) 
-  => creer les petites div de pagination 
-  => numéro dedans index de question +1
-*/
+
 
 
 

@@ -18,42 +18,21 @@
         </div>
     </div>
     <h1 id="question">
-        As-tu déjà fais les yeux doux à un.e inconnu.e pendant un rencart avec chéri.e?     
+        {{ question1 }}  
     </h1>
-    <div class="propositions">
-        <input type="radio" id="toggle1" name="reponse" >
-        <div class="Ombre" :class ="{'inputCheckedOmbre' : select1, 'hoverOmbre': !select1}" id="proposition1" @click="affichageChanger(1)">
-            <div class="bouton" :class="{'inputCheckedBouton' :select1}">
-                <label for="toggle1" class="propositiontexte">
-                    Jamais de la vie !  
-                </label>
+        <div class="propositions">
+            <div v-for="(reponse, index) in reponse1" :key="index">
+                <input type="radio" :id="'toggle' + (index+1)" name="reponse">
+                <div class="Ombre" 
+                :class="{'inputCheckedOmbre': reponse.select,'hoverOmbre': !reponse.select}" @click="affichageChanger(index)">
+                    <div class="bouton" :class="{'inputCheckedBouton': reponse.select}">
+                        <label :for="'toggle' + (index+1)" class="propositiontexte">
+                        {{ reponse.texte }}
+                        </label>
+                    </div>
+                </div>
             </div>
-        </div>  
-        <input type="radio" id="toggle2" name="reponse">
-        <div class="Ombre" :class ="{'inputCheckedOmbre' : select2, 'hoverOmbre': !select2}" id="proposition2" @click="affichageChanger(2)">
-            <div class="bouton" :class="{'inputCheckedBouton' : select2}">
-                <label for="toggle2" class="propositiontexte">
-                    J’avoue le.a serveur.euse la dernière fois...
-                </label>
-            </div>
-        </div> 
-        <input type="radio" id="toggle3" name="reponse">
-        <div class="Ombre" :class ="{'inputCheckedOmbre' : select3, 'hoverOmbre': !select3}" id="proposition3" @click="affichageChanger(3)">
-            <div class="bouton" :class="{'inputCheckedBouton' : select3}">
-                <label for="toggle3" class="propositiontexte">
-                    C'est un kink avec ma moitié, nous jugez pas  
-                </label> 
-            </div>
-        </div> 
-        <input type="radio" id="toggle4" name="reponse">
-        <div class="Ombre" :class ="{'inputCheckedOmbre' : select4, 'hoverOmbre': !select4}" id="proposition4" @click="affichageChanger(4)">
-            <div class="bouton" :class="{'inputCheckedBouton' : select4}">
-                <label for="toggle4" class="propositiontexte">
-                    Mattez juste un cul qui passe c'est pas faire les yeux doux?    
-                </label>      
-            </div>
-        </div> 
-    </div>
+        </div>
     <div id="signalement">
         <a href="signalement">
             <img src="../../assets/icones/signal3.svg" id="signalement">
@@ -66,50 +45,38 @@ import { computed, watch, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import pagination from './Pagination.vue' 
-import {tabQuiz, tableauQuiz } from './ObjetQuiz.vue' 
+import {tabQuiz, Quiz } from './ObjetQuiz.vue' 
+console.log("Question1 :",Quiz.value[0].question.texte);
+console.log("Reponse1 : ", Quiz.value[0].reponses[0].texte, Quiz.value[0].reponses[1].texte, Quiz.value[0].reponses[2].texte, Quiz.value[0].reponses[3].texte);
 
+const reponse1 = ref(Quiz.value[0].reponses);
+const question1 = ref(Quiz.value[0].question.texte );
 
 const imageOpacity = ref( "1");
 const boutonSuivant = ref(false);
-const select1 = ref(false);
-const select2 = ref(false);
-const select3 = ref(false);
-const select4 = ref(false);
 
-function resetBool(){
-    select1.value = false;
-    select2.value = false;
-    select3.value = false;
-    select4.value = false; 
+function resetBool(reponses){
+    reponses.forEach(reponse => { reponse.select = false;});
 }
+console.log(reponse1.value);
 
 function afficherBoutonSuivant(){
     imageOpacity.value = "0.5";
     boutonSuivant.value = true;
 }
-
+//index 
 function affichageChanger(uneCard){
-    resetBool();
-    if(uneCard === 1){
-        select1.value = !select1.value;
-    } else if (uneCard === 2){
-        select2.value = !select2.value;
-    }else if (uneCard === 3){
-        select3.value = !select3.value;
-    }else if (uneCard === 4){
-        select4.value = !select4.value;
-    }
-    console.log(select1.value, select2.value, select3.value, select4.value);
+    resetBool(reponse1.value);
+    reponse1.value[uneCard].select = true;
     afficherBoutonSuivant();
 }
+//todo 
+// longueur de pagination en fonction d'objet Quiz
+// dézoomer : fonction qui parcourt l'objet et affichage dynamique pour toutes les questions
 
 </script>
 
 <style scoped lang="css">
-/* todo: 
-curser pointer sur class bouton pas sur hover -> donner à bouton suivant 
-*/
-
 #pagination{
     position:absolute;
     left: 6%;
