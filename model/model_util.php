@@ -1,6 +1,6 @@
 <?php
 
-function getUtilisateurs($bdd):PDO | string{
+function getUtilisateurs($bdd)/* :PDO | string */{
     try{
         $req = $bdd->prepare('SELECT id_util, nom_util, prenom_util, mail_util, mdp_util FROM utilisateur');
         $req->execute();
@@ -13,7 +13,7 @@ function getUtilisateurs($bdd):PDO | string{
 
 
 
-function getUtilByMail($mail,$bdd):PDO | string{
+function getUtilByMail($mail,$bdd)/* :PDO | string */{
     try{
         $req = $bdd->prepare('SELECT mail_util FROM utilisateur WHERE mail_util = ?');
         $req->bindParam(1,$mail,PDO::PARAM_STR);
@@ -25,7 +25,7 @@ function getUtilByMail($mail,$bdd):PDO | string{
     }
 }
 
-function addUtilisateur($nom,$prenom,$mail,$password,$bdd):string{
+function addUtilisateur($nom,$prenom,$mail,$password,$bdd)/* :string */{
     $role = 3;
     try{
         $req = $bdd->prepare('INSERT INTO utilisateur (nom_util, prenom_util, mail_util, mdp_util, id_role) VALUES (?,?,?,?,?)');

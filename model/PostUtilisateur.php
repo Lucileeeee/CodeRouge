@@ -1,5 +1,4 @@
 <?php
-
 //!METHOD : POST
 // Accès depuis n'importe quel site ou appareil (*) //same (même domain), none (personne)
 header("Access-Control-Allow-Origin: *");
@@ -13,9 +12,7 @@ if($_SERVER['REQUEST_METHOD'] != "POST"){//VERIFIER QUE LA METHOD EST LA BONNE
     return;
 }
 
-//todo RECUERATION DE DONNEE changer pour les input vue!
-//!
-$data = file_get_contents('php://input');
+$data = file_get_contents('php://input');//RECUERATION DE DONNEE 
 $data = json_decode($data);//DECODER LE JSON
 
 //FORMAT ATTENTU POUR $data
@@ -27,7 +24,6 @@ $data = json_decode($data);//DECODER LE JSON
         'mdp':mdp
     }
 */
-
 if(empty($data->prenom) || empty($data->nom) || empty($data->mail) || empty($data->mdp)){
     http_response_code(400);
     echo json_encode(["message"=>"Les données ne sont pas valides","code HTTP"=>400]);

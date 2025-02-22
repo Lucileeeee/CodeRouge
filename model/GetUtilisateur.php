@@ -19,11 +19,22 @@ if($_SERVER['REQUEST_METHOD'] != "GET"){
 
 //RECUPERER LA LISTE DES USERS EN BDD
 $bdd = connexion();
-echo getUtilisateurs($bdd);
+//var_dump(getUtilisateurs($bdd)) ;
 //todo if getUtilisateurs($bdd) return $data -> 
 // else return error 
 
-try{
+$data =  getUtilByMail('lulu@hot.fr',$bdd);
+if(!empty($data[0])){    //5.4 Réponse vide ou pas ?
+    http_response_code(400);
+    var_dump($data);
+    echo json_encode(["message"=>"L'email est déjà utilisé","code HTTP"=>400]);
+    return;
+} 
+http_response_code(200);
+echo 'echo de data : ' . json_encode($data);
+return;
+
+/* try{
     $req = $bdd->prepare('SELECT id_util, nom_util, prenom_util, mail_util, mdp_util FROM utilisateur');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -34,4 +45,4 @@ try{
 }catch(EXCEPTION $error){
     echo $error->getMessage();
     return;
-}
+} */
