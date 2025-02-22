@@ -1,7 +1,7 @@
 <template>
     <div id="pagination">
-        <div class="page"
-        v-for="index in tabQuiz.length"
+        <div class="page" @click="paginationChanger(index)"
+        v-for="index in Quiz.length"
         :key="index"
         :class ="{'deselecte': index !== 1}">
             <p class="numero">{{ index }}</p>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-    <div id="signalement">
+    <div>
         <a href="signalement">
             <img src="../../assets/icones/signal3.svg" id="signalement">
         </a>
@@ -44,7 +44,8 @@
 import { computed, watch, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
-import pagination from './Pagination.vue' 
+//import { pagination } from './Pagination.vue'
+import { paginationChanger} from './Page_module.vue' 
 import {tabQuiz, Quiz } from './ObjetQuiz.vue' 
 console.log("Question1 :",Quiz.value[0].question.texte);
 console.log("Reponse1 : ", Quiz.value[0].reponses[0].texte, Quiz.value[0].reponses[1].texte, Quiz.value[0].reponses[2].texte, Quiz.value[0].reponses[3].texte);
@@ -71,7 +72,7 @@ function affichageChanger(uneCard){
     afficherBoutonSuivant();
 }
 //todo 
-// longueur de pagination en fonction d'objet Quiz
+// pagination 
 // dézoomer : fonction qui parcourt l'objet et affichage dynamique pour toutes les questions
 
 </script>

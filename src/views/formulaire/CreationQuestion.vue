@@ -149,7 +149,7 @@
                   <input type="text" id="reponse1" placeholder="ex: Quand j'y pense, une semaine sur deux">
               </div>
               <div id="redacScore1">
-                  <img src="../icones/Arrow 2.svg" class="fleche">
+                  <img src="../../assets/icones/Arrow.svg" class="fleche">
                   <div class="score">2</div>
               </div>
               <div id="redacInput2">
@@ -157,7 +157,7 @@
                   <input type="text" id="reponse1" placeholder="ex: 3 fois pas jour, comme le recommende l'OMS">
               </div>
               <div id="redacScore2">
-                  <img src="../icones/Arrow 2.svg" class="fleche">
+                  <img src="../../assets/icones/Arrow.svg" class="fleche">
                   <div class="score">1</div>
               </div>
           </div>
