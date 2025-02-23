@@ -25,7 +25,7 @@
               <label for="pwd">Mot de passe :</label>
               <input type="password" name="mdp" maxlength="30" minlength="8" id="pwd"
               v-on:keyup="remplirForm($event)"/>
-              <p>{{ form }} </p> 
+              <p>{{ messageUtilisateur }} </p> 
           </div>
       </fieldset>
   </form>
@@ -53,44 +53,29 @@ let form = ref({
     mdp : ''
 });
 
+let messageUtilisateur = ref('');
 
 function remplirForm(event){
     form.value[event.target.name] = event.target.value;
 }
 function envoyerForm(event){
     console.log(form.value);
-    //event.preventDefault();
-   fetch('http://localhost:8888/cda/rougeApi/model/PostUtilisateur.php',{
+    fetch('http://localhost:8888/cda/rougeApi/model/PostUtilisateur.php',{
         method : "POST",
         body : JSON.stringify(form.value)
     })
     .then(response => response.json())
     .then(data => console.log(data))
+    //messageUtilisateur.value = data.message;
 }
-function recevoirForm(event){
-    event.preventDefault();
-    fetch('http://localhost:8888/cda/rougeApi/model/PostUtilisateur.php',{
-        method : "GET",
-        body : JSON.stringify(form.value)
-    })
+/* function recevoirForm(event){
+    fetch('http://localhost/getUsers.php')
     .then(response => response.json())
     .then(data => console.log(data))
-}
-
-/*const form = document.querySelector('form');
-form.addEventListener('submit',event =>{
-    event.preventDefault();
-
-    fetch('http://localhost:8888/cda/rougeApi/model/PostUtilisateur.php',{
-        method : "POST",
-        body : JSON.stringify($data)
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-})
+} */
 
 //Récupérer la liste des utilisateurs
-fetch('http://localhost/getUsers.php')
+/*fetch('http://localhost/getUsers.php')
     .then(response => response.json())
     .then(data => console.log(data)) */
         
