@@ -23,7 +23,7 @@ $bdd = connexion();
 //todo if getUtilisateurs($bdd) return $data -> 
 // else return error 
 
-$data =  getUtilByMail('lulu@hot.fr',$bdd);
+$data =  getUtilByMail($mail,$bdd);
 if(!empty($data[0])){    //5.4 Réponse vide ou pas ?
     http_response_code(400);
     var_dump($data);

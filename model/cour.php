@@ -64,3 +64,56 @@ return;
 
 inscrireUtilisateurs($_ENV['dbhost'],$_ENV['dbname'],$_ENV['dblogin'],$_ENV['d bpassword']);
 ?>
+
+
+
+
+//!------------------------------------------------
+
+$result = getUtilMdpByMail($mail ,$bdd);
+
+if ($result == false){
+    http_response_code(400);
+    echo json_encode(["message"=>"L'email n'est pas correct","code HTTP"=>400]);
+    return;
+}
+/* echo $result['mail_util']. '<br>';
+echo $result['mdp_util']. '<br>'; */
+
+if ($result['mail_util'] != $mail || $result['mdp_util'] != $mdp){
+/*     echo $result['mail_util'], $mail , $result['mdp_util'], $mdp;
+    echo '<br>'; */
+    http_response_code(400);
+    echo json_encode(["message"=>$result['mail_util'] .' '. $mail .' '.  $result['mdp_util'].' '. $mdp ,"code HTTP"=>400]);
+    return;
+}
+http_response_code(200);
+echo json_encode(["message" => "Connexion Effectuer Dans la Gloire!"]);
+return;  
+
+//démarrage de la session (à utiliser sur toutes les pages)
+session_start();
+//$_SESSION['name'] = "Mathieu";
+//affichage du contenu de la super globale $_SESSION['name']
+//echo ''.$_SESSION['name'].' est connecté';
+
+//$_SESSION['name'] = "Mathieu";
+
+/* 
+//try{
+//! ici 
+$data =  getUtilByMail($mail,$bdd);
+if(!empty($data[0])){    //5.4 Réponse vide ou pas ?
+    http_response_code(400);
+    echo json_encode(["message"=>"L'email est déjà utilisé","code HTTP"=>400]);
+    return;
+}//! ET LA
+$ajouter = addUtilisateur($nom,$prenom,$mail,$mdp,$bdd);
+if ($ajouter == false){
+    http_response_code(500);
+    echo json_encode(["message" => "Un problème est survenu lors de
+    l'enregistrement"]);
+    return;
+}
+ */
+

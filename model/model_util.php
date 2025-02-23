@@ -11,11 +11,22 @@ function getUtilisateurs($bdd)/* :PDO | string */{
     }
 }
 
-
-
 function getUtilByMail($mail,$bdd)/* :PDO | string */{
     try{
         $req = $bdd->prepare('SELECT mail_util FROM utilisateur WHERE mail_util = ?');
+        $req->bindParam(1,$mail,PDO::PARAM_STR);
+        $req->execute();
+        $data = $req->fetch();
+        return $data;
+    }catch(Exception $error){
+        return $error->getMessage();
+    }
+}
+
+
+function getUtilMdpByMail($mail ,$bdd)/* :PDO | string */{
+    try{
+        $req = $bdd->prepare('SELECT mail_util , mdp_util FROM utilisateur WHERE mail_util = ?');
         $req->bindParam(1,$mail,PDO::PARAM_STR);
         $req->execute();
         $data = $req->fetch();

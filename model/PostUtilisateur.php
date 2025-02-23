@@ -6,7 +6,8 @@ include 'model_util.php';
 
 //!METHOD : POST
 // Accès depuis n'importe quel site ou appareil (*) //same (même domain), none (personne)
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:5173");//? http://localhost:5173
+header("Access-Control-Allow-Credentials: true");//? à la place de * sur "Allow-Origin"
 header("Content-Type: application/json; charset=UTF-8");// Format des données envoyées
 header("Access-Control-Allow-Methods: POST");// Méthode autorisée, ici POST, mais ça peut être GET, PUT ou DELETE
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-AllowHeaders, Authorization, X-Requested-With");// Entêtes autorisées
