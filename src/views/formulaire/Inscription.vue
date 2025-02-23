@@ -3,7 +3,7 @@
   <h1 id="titreAccueil">
       Inscription
   </h1>
-  <p class="consigne">Veille à remplir tous les champs</p>
+  <p class="consigne"> {{ messageUtilisateur }} </p>
   <form method="POST" action="#.php">
       <fieldset>
           <div>
@@ -25,18 +25,19 @@
               <label for="pwd">Mot de passe :</label>
               <input type="password" name="mdp" maxlength="30" minlength="8" id="pwd"
               v-on:keyup="remplirForm($event)"/>
-              <p>{{ messageUtilisateur }} </p> 
           </div>
+          <div class="Ombre hoverOmbre" id="boutonForm"
+            v-on:click="envoyerForm($event)">
+                <div class="bouton">
+                    <input type="submit" name="submit">
+                    <label for="buton" id="labelForm">
+                        M'Inscrire      
+                    </label>      
+                </div>
+            </div> 
       </fieldset>
   </form>
-  <div class="Ombre hoverOmbre" id="boutonForm"
-  v-on:click="envoyerForm($event)">
-      <div class="bouton">
-          <label for="buton" id="labelForm">
-              M'Inscrire      
-          </label>      
-      </div>
-  </div> 
+
   <p class="redirection">Tu as déjà un compte ? <span><router-link to="/Connexion">Se Connecter</router-link></span></p>
   <!-- Revoir label?? -->
 </main>
@@ -53,7 +54,7 @@ let form = ref({
     mdp : ''
 });
 
-let messageUtilisateur = ref('');
+let messageUtilisateur = ref('Veille à remplir tous les champs');
 
 function remplirForm(event){
     form.value[event.target.name] = event.target.value;
@@ -62,24 +63,22 @@ function envoyerForm(event){
     console.log(form.value);
     fetch('http://localhost:8888/cda/rougeApi/model/PostUtilisateur.php',{
         method : "POST",
+        credentials: 'include',
         body : JSON.stringify(form.value)
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    //messageUtilisateur.value = data.message;
+    .then(data => console.log(data.message))
+    //todo .then(messageUtilisateur.value = data.message);
 }
-/* function recevoirForm(event){
-    fetch('http://localhost/getUsers.php')
-    .then(response => response.json())
-    .then(data => console.log(data))
-} */
 
-//Récupérer la liste des utilisateurs
-/*fetch('http://localhost/getUsers.php')
-    .then(response => response.json())
-    .then(data => console.log(data)) */
-        
+
 </script>
 
 <style scoped lang="css">
+#boutonForm{
+    margin-top: 40px;
+}
+input[ type="submit"]{
+    display:none;
+}
 </style>

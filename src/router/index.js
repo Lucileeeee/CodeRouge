@@ -47,6 +47,11 @@ const router = createRouter({
             name: 'CreationResultat',
             component: () => import('../views/formulaire/CreationResultat.vue')
         },
+        {
+            path: '/CompteUtil',
+            name: 'CompteUtil',
+            component: () => import('../views/compte/CompteUtil.vue')
+        },
     ]
 });
 
