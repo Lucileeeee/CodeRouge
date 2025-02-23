@@ -1,4 +1,9 @@
 <?php
+include '../env.php';
+include '../util/BDD.php';
+include '../util/function.php';
+include 'model_util.php';
+
 //!METHOD : POST
 // Accès depuis n'importe quel site ou appareil (*) //same (même domain), none (personne)
 header("Access-Control-Allow-Origin: *");
@@ -12,18 +17,9 @@ if($_SERVER['REQUEST_METHOD'] != "POST"){//VERIFIER QUE LA METHOD EST LA BONNE
     return;
 }
 
-$data = file_get_contents('php://input');//RECUERATION DE DONNEE 
+$data = file_get_contents('php://input');//RECUPERATION DE DONNEE 
 $data = json_decode($data);//DECODER LE JSON
 
-//FORMAT ATTENTU POUR $data
-/*
-    {
-        'prenom':prenom,
-        'nom':nom,
-        'mail':mail,
-        'mdp':mdp
-    }
-*/
 if(empty($data->prenom) || empty($data->nom) || empty($data->mail) || empty($data->mdp)){
     http_response_code(400);
     echo json_encode(["message"=>"Les données ne sont pas valides","code HTTP"=>400]);
@@ -41,46 +37,37 @@ $mail = sanitize($data->mail);
 $mdp = sanitize($data->mdp);
 
 $mdp = password_hash($mdp,PASSWORD_BCRYPT);
-
 $bdd = connexion();
-//5.2 Try... catch
 
 //try{
-    //5.3 Requête préparé
-    /* $req = $bdd->prepare('SELECT id_util, nom_util, prenom_util, mail_util, mdp_util FROM utilisateur WHERE mail_util = ?');
-    $req->bindParam(1,$mail,PDO::PARAM_STR);
-    $req->execute();
-    $req->fetchAll(PDO::FETCH_ASSOC); 
-    //!remplacer par "$data =  getUtilByMail($mail,$bdd);"
-    */
-    $data =  getUtilByMail($mail,$bdd);
-    if(!empty($data[0])){    //5.4 Réponse vide ou pas ?
-        http_response_code(400);
-        echo json_encode(["message"=>"L'email est déjà utilisé","code HTTP"=>400]);
-        return;
-    }
-    //6 Lancer l'enregistrement
-/*     $req = $bdd->prepare('INSERT INTO utilisateur(nom_util, prenom_util, mail_util, mdp_util) VALUES (?,?,?,?)');
-    $req->bindParam(1,$nom,PDO::PARAM_STR);
-    $req->bindParam(2,$prenom,PDO::PARAM_STR);
-    $req->bindParam(3,$mail,PDO::PARAM_STR);
-    $req->bindParam(4,$mdp,PDO::PARAM_STR);
-    $req->execute(); 
-    //!remplacer par addUtilisateur($nom,$prenom,$mail,$password,$bdd);
-    */
-    $ajouter = addUtilisateur($nom,$prenom,$mail,$password,$bdd);
-    if ($ajouter == false){
-        http_response_code(500);
-        echo json_encode(["message" => "Un problème est survenu lors de
-        l'enregistrement"]); return;
-        }
-        //Envoie des datas
-        http_response_code(200);
-        echo json_encode(["message" => "Enregistrement effecuté avec succès"]);
-        return; 
-
-
+$data =  getUtilByMail($mail,$bdd);
+if(!empty($data[0])){    //5.4 Réponse vide ou pas ?
+    http_response_code(400);
+    echo json_encode(["message"=>"L'email est déjà utilisé","code HTTP"=>400]);
+    return;
+}
+$ajouter = addUtilisateur($nom,$prenom,$mail,$mdp,$bdd);
+if ($ajouter == false){
+    http_response_code(500);
+    echo json_encode(["message" => "Un problème est survenu lors de
+    l'enregistrement"]);
+    return;
+}
+http_response_code(200);
+echo json_encode(["message" => "Enregistrement effecuté avec succès"]);
+return; 
 /*}catch(EXCEPTION $error){
     echo $error->getMessage();
     return;
 }*/
+
+
+//FORMAT ATTENTU POUR $data
+/*
+    {
+        'prenom':prenom,
+        'nom':nom,
+        'mail':mail,
+        'mdp':mdp
+    }
+*/
