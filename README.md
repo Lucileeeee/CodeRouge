@@ -3,13 +3,13 @@
 1. **Cloner le repo :**
 
 ```bash
-git clone <url-du-repo>
-cd <nom-du-dossier>
-
+git clone https://github.com/Lucileeeee/CodeRouge.git
+cd CodeRouge
 ```
 
 2. **Installer les dépendances :**
    npm install
+   npm install axios
 
 3. **ICréer le fichier .env à la racine :**
    DATABASE_URL="file:./dev.db"

@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api", routes);
+const imageRoutes = require("./routes/image");
+app.use("/api/image", imageRoutes);
 
 // Middleware de gestion d'erreur 404
 app.use((req, res) => {
@@ -28,10 +30,8 @@ app.use((error, req, res, next) => {
 
 // Démarrage du serveur
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
-  console.log(
-    `📖 Documentation API disponible sur http://localhost:${PORT}/api`
-  );
+  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+  console.log(`Documentation API disponible sur http://localhost:${PORT}/api`);
 });
 
 module.exports = app;
