@@ -2,36 +2,71 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Test Chat OpenAI</title>
+    <title>Test DALL·E</title>
   </head>
   <body>
-    <h1>Tester GPT depuis le Front</h1>
+    <h1>Générateur d’image avec DALL·E</h1>
 
-    <textarea
-      id="prompt"
-      rows="4"
-      cols="50"
-      placeholder="Écris ton prompt ici..."
-    ></textarea
-    ><br /><br />
-    <button onclick="sendPrompt()">Envoyer</button>
+    <form id="prompt-form">
+      <textarea
+        id="prompt"
+        placeholder="Décris ton image ici..."
+        rows="4"
+        cols="50"
+        required
+      ></textarea>
+      <br />
+      <button type="submit">Générer</button>
+    </form>
 
-    <h2>Réponse :</h2>
-    <p id="response"></p>
+    <p id="error" style="color: red"></p>
+
+    <div id="image-container"></div>
 
     <script>
-      async function sendPrompt() {
-        const prompt = document.getElementById("prompt").value;
-        const res = await fetch("/api/test-chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
-        });
+      const form = document.getElementById("prompt-form");
+      const errorP = document.getElementById("error");
+      const imageContainer = document.getElementById("image-container");
 
-        const data = await res.json();
-        document.getElementById("response").textContent =
-          data.response || "Erreur";
-      }
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorP.textContent = "";
+        imageContainer.innerHTML = "Chargement...";
+
+        const prompt = document.getElementById("prompt").value;
+
+        try {
+          const response = await fetch("/api/test-chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt }),
+          });
+          // Log de tout l’objet Response (status, headers, etc.)
+          console.log("Response HTTP:", response);
+
+          const data = await response.json();
+
+          // Log du JSON retourné par le serveur
+          console.log("Data JSON:", data);
+
+          if (data.error) {
+            errorP.textContent = data.error;
+            imageContainer.innerHTML = "";
+          } else if (data.localPath) {
+            // utilise bien localPath pour afficher l'image téléchargée
+            imageContainer.innerHTML = `<img src="${data.localPath}" alt="Image générée" width="512" />`;
+          } else {
+            errorP.textContent = "Réponse invalide du serveur.";
+            imageContainer.innerHTML = "";
+          }
+        } catch (err) {
+          console.error(err);
+          errorP.textContent = "Erreur lors de la génération de l’image.";
+          imageContainer.innerHTML = "";
+        }
+      });
     </script>
   </body>
 </html>

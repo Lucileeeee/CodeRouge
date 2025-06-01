@@ -1,31 +1,33 @@
 const OpenAI = require("openai");
+const downloadImage = require("../utils/downloadImage");
 
 const openai = new OpenAI({
   apiKey: process.env.OpenAiKey,
 });
 
 async function testChat(prompt) {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
-  });
+  try {
+    const response = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: prompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1,
+    });
 
-  return completion.choices[0].message.content;
+    const imageUrl = response.data[0].url;
+    //téléchargement
+    const filename = `image-${Date.now()}.jpg`;
+    const localPath = `/downloads/${filename}`;
+    await downloadImage(imageUrl, filename);
+    return {
+      url: imageUrl,
+      localPath: localPath,
+    };
+  } catch (error) {
+    console.error("Erreur DALL·E :", error.message);
+    throw new Error("Impossible de générer l’image.");
+  }
 }
 
 module.exports = testChat;
-
-/* import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OpenAiKey,
-});
-
-const completion = openai.chat.completions.create({
-  model: "gpt-4o-mini",
-  store: true,
-  messages: [{ role: "user", content: "write a haiku about ai" }],
-});
-
-completion.then((result) => console.log(result.choices[0].message));
- */

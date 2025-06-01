@@ -1,15 +1,20 @@
 //todo liste :
-//! 1) configurer les endpoint de la requête:
-//?  model:dalle-3, image: 512x512, quality: medium etc, base64 ...
-//! 2) style à concaténer/bloquer aux reste des requêtes
+
+//! 2) style à concaténer/bloquer au reste des requêtes
 //? "animation 3d couleurs orange, rouge, jaune, dominantes"
 
 //! 3) enregistrement automatique en bdd de la reponse url + le prompt
-//? function de telechargement
-//? creer model et controller image
-//! 4) connecter à mon front!
+//? revoir model et controller image
+//? une fonction sanitezd + gestion d'erreur
+
+//! Refaire style du formulaire/page génération (tailwind?)
 /*
 ? 1) a quoi sert le middleware? quel equivalent en mvc php
 
-est-ce que je peux faire mon premeir call en chat-gpt pour console.log() puis switcher sur dall.E
+
+/routes        → définit les routes
+/controllers  → contient la logique métier (fonctions déclenchées par les routes)
+/models       → gère la base de données (via ORM ou requêtes)
+/middleware   → contient les fonctions intermédiaires réutilisables
+
 */

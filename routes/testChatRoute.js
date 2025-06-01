@@ -3,13 +3,13 @@ const router = express.Router();
 const testChat = require("../services/test-chat");
 
 router.post("/", async (req, res) => {
-  const prompt = req.body.prompt;
-
   try {
-    const response = await testChat(prompt);
-    res.json({ response });
+    const { prompt } = req.body;
+    const result = await testChat(prompt);
+    // Ici on renvoie bien l'objet complet avec url ET localPath
+    res.json(result);
   } catch (error) {
-    res.status(500).json({ error: "Erreur lors de l'appel à OpenAI" });
+    res.status(500).json({ error: error.message || "Erreur serveur" });
   }
 });
 
