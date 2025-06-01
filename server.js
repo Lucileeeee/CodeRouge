@@ -17,6 +17,10 @@ app.use("/api", routes);
 const imageRoutes = require("./routes/image");
 app.use("/api/image", imageRoutes);
 
+const testChatRoute = require("./routes/testChatRoute");
+app.use("/api/test-chat", testChatRoute);
+app.use(express.static("public"));
+
 // Middleware de gestion d'erreur 404
 app.use((req, res) => {
   res.status(404).json({ error: "Route non trouvée" });

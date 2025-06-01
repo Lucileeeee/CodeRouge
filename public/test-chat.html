@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Chat OpenAI</title>
+  </head>
+  <body>
+    <h1>Tester GPT depuis le Front</h1>
+
+    <textarea
+      id="prompt"
+      rows="4"
+      cols="50"
+      placeholder="Écris ton prompt ici..."
+    ></textarea
+    ><br /><br />
+    <button onclick="sendPrompt()">Envoyer</button>
+
+    <h2>Réponse :</h2>
+    <p id="response"></p>
+
+    <script>
+      async function sendPrompt() {
+        const prompt = document.getElementById("prompt").value;
+        const res = await fetch("/api/test-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt }),
+        });
+
+        const data = await res.json();
+        document.getElementById("response").textContent =
+          data.response || "Erreur";
+      }
+    </script>
+  </body>
+</html>

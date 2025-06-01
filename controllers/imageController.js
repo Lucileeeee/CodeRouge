@@ -1,4 +1,4 @@
-const { generateImage } = require("../services/dalle");
+const { generateImage } = require("../services/test-chat");
 
 const creatImage = async (req, res) => {
   const { prompt } = req.body;

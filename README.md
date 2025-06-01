@@ -11,10 +11,10 @@ cd CodeRouge
    npm install
    npm install axios
 
-3. **ICréer le fichier .env à la racine :**
-   DATABASE_URL="file:./dev.db"
-   JWT_SECRET="cbhdjcjzdhcvhzgd"
-   PORT=3000
+3. **Créer le fichier .env à la racine :**
+   DATABASE_URL=""
+   JWT_SECRET=""
+   PORT=
 
 4. **Initialiser la base de données :**
    npx prisma migrate dev --name init
