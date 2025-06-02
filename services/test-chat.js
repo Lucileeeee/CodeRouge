@@ -17,16 +17,16 @@ async function testChat(prompt) {
 
     const imageUrl = response.data[0].url;
     //téléchargement
-    const filename = `image-${Date.now()}.jpg`;
-    const localPath = `/downloads/${filename}`;
-    await downloadImage(imageUrl, filename);
+    const imgName = `image-${Date.now()}.jpg`;
+    const localPath = `/downloads/${imgName}`;
+    await downloadImage(imageUrl, imgName);
     return {
       url: imageUrl,
       localPath: localPath,
     };
   } catch (error) {
-    console.error("Erreur DALL·E :", error.message);
-    throw new Error("Impossible de générer l’image.");
+    console.error("Erreur API Dalle :", error.message);
+    throw new Error("from back: Impossible de générer l’image.");
   }
 }
 

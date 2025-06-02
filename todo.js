@@ -6,8 +6,6 @@
 //! 3) enregistrement automatique en bdd de la reponse url + le prompt
 //? revoir model et controller image
 //? une fonction sanitezd + gestion d'erreur
-
-//! Refaire style du formulaire/page génération (tailwind?)
 /*
 ? 1) a quoi sert le middleware? quel equivalent en mvc php
 
