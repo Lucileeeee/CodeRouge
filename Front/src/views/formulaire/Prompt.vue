@@ -2,7 +2,7 @@
   <section class="prompt-section">
     <h1>4) Prompt Image d'Illustration :</h1>
     <div class="grid">
-      <form @submit.prevent="handleSubmit">
+      <form @submit.prevent="envoyerForm">
         <label for="prompt" class="explication">
           Décris l’image que tu veux pour illustrer cette question :
         </label>
@@ -26,8 +26,7 @@
       </form>
       <div class="rendu">
         <p>Résultat :</p>
-        <p v-if="error" class="error-message">{{ error }}</p>
-
+        <p v-if="error" class="error-message">{{ messageError }}</p>
         <div id="image-container">
           <p v-if="loading">Chargement...</p>
           <img
@@ -41,6 +40,47 @@
     </div>
   </section>
 </template>
+<script setup>
+import { ref } from "vue";
+
+const prompt = ref("");
+const messageError = ref("");
+const imageUrl = ref("");
+const loading = ref(false);
+
+const envoyerForm = async () => {
+  messageError.value = "";
+  imageUrl.value = "";
+  loading.value = true;
+
+  try {
+    const response = await fetch("http://localhost:3000/api/test-chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt: prompt.value }),
+    });
+
+    console.log("response: ", response);
+    const data = await response.json();
+    console.log("data: ", data);
+
+    if (data.error) {
+      messageError.value = data.error;
+    } else if (data.localPath) {
+      imageUrl.value = `http://localhost:3000${data.localPath}`;
+    } else {
+      messageError.value = "problème de connexion avec le serveur.";
+    }
+  } catch (err) {
+    console.error(err);
+    messageError.value = "problème de connexion à l'api.";
+  } finally {
+    loading.value = false;
+  }
+};
+</script>
 
 <style scoped>
 section {
@@ -98,45 +138,3 @@ textarea {
   margin-top: 2rem;
 }
 </style>
-
-<script setup>
-import { ref } from "vue";
-
-const prompt = ref("");
-const error = ref("");
-const imageUrl = ref("");
-const loading = ref(false);
-
-const handleSubmit = async () => {
-  error.value = "";
-  imageUrl.value = "";
-  loading.value = true;
-
-  try {
-    const response = await fetch("http://localhost:3000/api/test-chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: prompt.value }),
-    });
-
-    console.log("Response HTTP:", response);
-    const data = await response.json();
-    console.log("Data JSON:", data);
-
-    if (data.error) {
-      error.value = data.error;
-    } else if (data.localPath) {
-      imageUrl.value = `http://localhost:3000${data.localPath}`;
-    } else {
-      error.value = "Réponse invalide du serveur.";
-    }
-  } catch (err) {
-    console.error(err);
-    error.value = "Erreur lors de la génération de l’image.";
-  } finally {
-    loading.value = false;
-  }
-};
-</script>
