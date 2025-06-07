@@ -1,3 +1,7 @@
+<!-- todo
+? 1) image dynamique en fonction de la question  
+? 2) grid dynamique / nbr de reopnses -> récupérer ceux de creationQuestion 
+-->
 <template>
   <div id="pagination">
     <div
@@ -22,47 +26,48 @@
       }}
     </div>
   </div>
-
   <div v-if="quiz[currentQuestionIndex]">
     <h1 class="question" :id="'question-' + currentQuestionIndex">
       {{ quiz[currentQuestionIndex].question }}
     </h1>
-
     <div class="propositions">
       <div
         v-for="(reponse, reponseIndex) in quiz[currentQuestionIndex].reponses"
         :key="reponseIndex"
       >
-        <input
-          type="radio"
-          :id="`q${currentQuestionIndex}-r${reponseIndex}`"
-          :name="'question-' + currentQuestionIndex"
-          :value="reponseIndex"
-          v-model="userAnswers[currentQuestionIndex]"
-          @change="toggleBoutonSuivant"
-        />
-        <div
-          class="Ombre"
-          :class="{
-            contourBoutonSelect:
-              userAnswers[currentQuestionIndex] === reponseIndex,
-            hoverOmbre: userAnswers[currentQuestionIndex] !== reponseIndex,
-          }"
+        <label
+          :for="`q${currentQuestionIndex}-r${reponseIndex}`"
+          class="propositiontexte"
         >
+          <input
+            type="radio"
+            :id="`q${currentQuestionIndex}-r${reponseIndex}`"
+            :name="'question-' + currentQuestionIndex"
+            :value="reponseIndex"
+            v-model="userAnswers[currentQuestionIndex]"
+            @change="toggleBoutonSuivant"
+          />
           <div
-            class="bouton"
+            class="Ombre"
             :class="{
-              boutonSelect: userAnswers[currentQuestionIndex] === reponseIndex,
+              contourBoutonSelect:
+                userAnswers[currentQuestionIndex] === reponseIndex,
+              hoverOmbre: userAnswers[currentQuestionIndex] !== reponseIndex,
             }"
           >
-            <label
-              :for="`q${currentQuestionIndex}-r${reponseIndex}`"
-              class="propositiontexte"
+            <div
+              class="bouton"
+              :class="{
+                boutonSelect:
+                  userAnswers[currentQuestionIndex] === reponseIndex,
+              }"
             >
-              {{ reponse }}
-            </label>
+              <span class="max-width">
+                {{ reponse }}
+              </span>
+            </div>
           </div>
-        </div>
+        </label>
       </div>
     </div>
   </div>
@@ -78,43 +83,70 @@ import { RouterLink } from 'vue-router'
 
 import { ref } from 'vue'
 import { quiz } from './ObjetQuiz.vue'
+import { useQuizStore } from '../../stores/quizStore'
 
+const quizStore = useQuizStore()
 
 const currentQuestionIndex = ref(0)
-//const userAnswers = ref([]) // Indexé par questionIndex
 const userAnswers = ref(new Array(quiz.length).fill(null))
 
 const imageOpacity = ref( "1");
 const boutonSuivant = ref(false);
 
-function toggleBoutonSuivant(){
-    const reponse = userAnswers.value[currentQuestionIndex.value]
-    if (reponse !== undefined && reponse !== null) {
-    imageOpacity.value = "0.5"
-    boutonSuivant.value = true
-  } else {
-    imageOpacity.value = "1"
-    boutonSuivant.value = false
-  }
+// Fonctions utilitaires
+function hasAnswer(questionIndex = currentQuestionIndex.value) {
+    const reponse = userAnswers.value[questionIndex]
+    return reponse !== undefined && reponse !== null
+}
+
+function saveCurrentAnswer() {
+    if (hasAnswer()) {
+        quizStore.saveAnswer(currentQuestionIndex.value, userAnswers.value[currentQuestionIndex.value])
+    }
+}
+
+function goToQuestion(index) {
+    currentQuestionIndex.value = index
+    toggleBoutonSuivant()
+}
+
+// Fonctions principales
+function toggleBoutonSuivant() {
+    if (hasAnswer()) {
+        imageOpacity.value = "0.5"
+        boutonSuivant.value = true
+    } else {
+        imageOpacity.value = "1"
+        boutonSuivant.value = false
+    }
 }
 
 function paginationChanger(index) {
-  currentQuestionIndex.value = index
-  toggleBoutonSuivant()
+    if (index > currentQuestionIndex.value) {
+        // Aller en avant
+        if (hasAnswer()) {
+            saveCurrentAnswer()
+            goToQuestion(index)
+        } else {
+            console.log("gros lâche répond à la question")
+        }
+    } else {
+        // Retour en arrière
+        saveCurrentAnswer()
+        goToQuestion(index)
+    }
 }
 
 function upToTheNextOne() {
-    console.log("upToTheNextOne a été appelé")
-  //if (currentQuestionIndex.value < quiz.length - 1) {
-    console.log("rentrer dans if currentQuestionIndex.value < quiz.length - 1")
-    paginationChanger(currentQuestionIndex.value + 1)
-  //}else { go back}
+    saveCurrentAnswer()
+    if (currentQuestionIndex.value < quiz.value.length - 1) {
+        goToQuestion(currentQuestionIndex.value + 1)
+    } else {
+        console.log("y a plus de question en stock , go soumettre le quiz")
+        const result = quizStore.getAllAnswers()
+        console.log('result', result)
+    }
 }
-
-//todo
-//Enregistrement dans pinia de la reponse
-// pagination
-// dézoomer : fonction qui parcourt l'objet et affichage dynamique pour toutes les questions
 </script>
 
 <style scoped lang="css">
@@ -267,11 +299,17 @@ input[type="radio"] {
 }
 
 .propositiontexte {
-  max-width: 260px;
+  max-width: 200px !important;
   font-size: 1rem;
   letter-spacing: 0.5px;
-  font-weight: 400;
+  font-weight: 400 !important;
   text-align: center;
+}
+
+label.propositiontexte .max-width {
+  max-width: 260px !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
 }
 
 #signalement {

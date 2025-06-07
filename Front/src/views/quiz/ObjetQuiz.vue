@@ -1,7 +1,6 @@
 <script>
 import { ref } from "vue";
 
-export const tabQuiz = Array(30);
 // todo ajouter image avec alt à question
 export const quiz = ref([
   {
