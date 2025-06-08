@@ -1,7 +1,3 @@
-<!-- todo
-? 1) image dynamique en fonction de la question  
-? 2) grid dynamique / nbr de reopnses -> récupérer ceux de creationQuestion 
--->
 <template>
   <div id="pagination">
     <div
@@ -16,7 +12,19 @@
   </div>
   <p id="titeQuiz">Suis-je un trou d'Bal ?</p>
 
-  <div id="image" :style="{ opacity: imageOpacity }"></div>
+  <div
+    class="image-contener"
+    :style="{
+      opacity: imageOpacity,
+    }"
+  >
+    <img
+      :src="quiz[currentQuestionIndex].image[0]"
+      :alt="quiz[currentQuestionIndex].image[1]"
+      height="320px"
+      width="320px"
+    />
+  </div>
   <div class="ombreSuivant" v-show="boutonSuivant" @click="upToTheNextOne">
     <div class="boutonSuivant">
       {{
@@ -30,10 +38,16 @@
     <h1 class="question" :id="'question-' + currentQuestionIndex">
       {{ quiz[currentQuestionIndex].question }}
     </h1>
-    <div class="propositions">
+    <div
+      :class="[
+        'propositions',
+        quiz[currentQuestionIndex].reponses.length === 3 ? 'row3' : '',
+      ]"
+    >
       <div
         v-for="(reponse, reponseIndex) in quiz[currentQuestionIndex].reponses"
         :key="reponseIndex"
+        class="centrer"
       >
         <label
           :for="`q${currentQuestionIndex}-r${reponseIndex}`"
@@ -95,61 +109,64 @@ const boutonSuivant = ref(false);
 
 // Fonctions utilitaires
 function hasAnswer(questionIndex = currentQuestionIndex.value) {
-    const reponse = userAnswers.value[questionIndex]
-    return reponse !== undefined && reponse !== null
+  const reponse = userAnswers.value[questionIndex]
+  return reponse !== undefined && reponse !== null
 }
 
 function saveCurrentAnswer() {
-    if (hasAnswer()) {
-        quizStore.saveAnswer(currentQuestionIndex.value, userAnswers.value[currentQuestionIndex.value])
-    }
+  if (hasAnswer()) {
+    quizStore.saveAnswer(currentQuestionIndex.value, userAnswers.value[currentQuestionIndex.value])
+  }
 }
 
 function goToQuestion(index) {
-    currentQuestionIndex.value = index
-    toggleBoutonSuivant()
+  currentQuestionIndex.value = index
+  toggleBoutonSuivant()
 }
 
 // Fonctions principales
 function toggleBoutonSuivant() {
-    if (hasAnswer()) {
-        imageOpacity.value = "0.5"
-        boutonSuivant.value = true
-    } else {
-        imageOpacity.value = "1"
-        boutonSuivant.value = false
-    }
+  if (hasAnswer()) {
+    imageOpacity.value = "0.5"
+    boutonSuivant.value = true
+  } else {
+    imageOpacity.value = "1"
+    boutonSuivant.value = false
+  }
 }
 
 function paginationChanger(index) {
-    if (index > currentQuestionIndex.value) {
-        // Aller en avant
-        if (hasAnswer()) {
-            saveCurrentAnswer()
-            goToQuestion(index)
-        } else {
-            console.log("gros lâche répond à la question")
-        }
-    } else {
-        // Retour en arrière
-        saveCurrentAnswer()
-        goToQuestion(index)
+  if (index > currentQuestionIndex.value) {
+    // Aller en avant
+    if (hasAnswer()) {
+      saveCurrentAnswer()
+      goToQuestion(index)
     }
+  } else {
+    // Retour en arrière
+    saveCurrentAnswer()
+    goToQuestion(index)
+  }
 }
 
 function upToTheNextOne() {
-    saveCurrentAnswer()
-    if (currentQuestionIndex.value < quiz.value.length - 1) {
-        goToQuestion(currentQuestionIndex.value + 1)
-    } else {
-        console.log("y a plus de question en stock , go soumettre le quiz")
-        const result = quizStore.getAllAnswers()
-        console.log('result', result)
-    }
+  saveCurrentAnswer()
+  if (currentQuestionIndex.value < quiz.value.length - 1) {
+    goToQuestion(currentQuestionIndex.value + 1)
+  } else {
+    console.log("y a plus de question en stock , go soumettre le quiz")
+    const result = quizStore.getAllAnswers()
+    console.log('result', result)
+  }
 }
 </script>
 
 <style scoped lang="css">
+:deep(.row3 > .centrer:last-child) {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
 #pagination {
   position: absolute;
   left: 6%;
@@ -198,18 +215,18 @@ function upToTheNextOne() {
 #titeQuiz {
   margin-bottom: 0;
 }
-/*todo:
-mettre l'image en dynamique*/
-#image {
+
+.image-contener {
   height: 320px;
   width: 320px;
-  background-image: url("./src/assets/Images_DallE/yeux_doux.jpeg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   margin-top: 10px;
   display: flex;
   align-items: center;
+  border-radius: 3px;
+  overflow: hidden;
 }
 .ombreSuivant {
   width: 320px;
