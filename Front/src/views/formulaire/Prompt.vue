@@ -1,7 +1,31 @@
 <template>
-  <section class="prompt-section">
-    <h1>4) Prompt Image d'Illustration :</h1>
-    <div class="grid">
+  <div class="grid">
+    <div class="rendu">
+      <p>Résultat :</p>
+      <p v-if="error" class="error-message">{{ messageError }}</p>
+      <div id="image-container">
+        <p v-if="loading">Chargement...</p>
+        <img
+          v-if="imageUrl"
+          :src="imageUrl"
+          alt="Image générée"
+          width="245"
+          height="245"
+        />
+      </div>
+    </div>
+    <div class="col-2">
+      <div id="pagination">
+        <div
+          class="page"
+          v-for="(etape, index) in formStapes"
+          :key="index"
+          @click="paginationChanger(index)"
+          :class="{ deselecte: index !== currentStape }"
+        >
+          <p class="numero">{{ index + 1 }}</p>
+        </div>
+      </div>
       <form @submit.prevent="envoyerForm">
         <label for="prompt" class="explication">
           Décris l’image que tu veux pour illustrer cette question :
@@ -24,29 +48,19 @@
           />
         </div>
       </form>
-      <div class="rendu">
-        <p>Résultat :</p>
-        <p v-if="error" class="error-message">{{ messageError }}</p>
-        <div id="image-container">
-          <p v-if="loading">Chargement...</p>
-          <img
-            v-if="imageUrl"
-            :src="imageUrl"
-            alt="Image générée"
-            width="512"
-          />
-        </div>
-      </div>
     </div>
-  </section>
+  </div>
 </template>
 <script setup>
 import { ref } from "vue";
 
+const formStapes = ref(7);
 const prompt = ref("");
 const messageError = ref("");
 const imageUrl = ref("");
 const loading = ref(false);
+
+let currentStape = ref(2);
 
 const envoyerForm = async () => {
   messageError.value = "";
@@ -61,8 +75,6 @@ const envoyerForm = async () => {
       },
       body: JSON.stringify({ prompt: prompt.value }),
     });
-
-    console.log("response: ", response);
     const data = await response.json();
     console.log("data: ", data);
 
@@ -83,16 +95,51 @@ const envoyerForm = async () => {
 </script>
 
 <style scoped>
-section {
-  min-height: 100vh;
+.col-2 {
+  display: flex;
+  gap: 90px;
+  margin-right: 5%;
+}
+
+#pagination {
+  height: 200px;
+  min-width: 38px;
+  background-color: rgba(255, 255, 255, 0.236);
+  border-radius: 50px;
+  border: 1.5px solid white;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 10px 30px;
+  gap: 40px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.674) rgba(255, 255, 255, 0.024);
+  padding-block: 20px;
+  .page {
+    background-image: url("./src/assets/icones/page2.svg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 37px;
+    width: 18.47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    :hover {
+      cursor: pointer;
+    }
+    .numero {
+      font-size: smaller;
+    }
+  }
+}
+.deselecte {
+  opacity: 0.4;
 }
 #boutonForm {
-  margin-left: 15%;
+  justify-self: center;
   #buttonPromptImage {
     font-family: "Rubik", sans-serif;
     font-weight: 500;
@@ -102,17 +149,17 @@ section {
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-top: 135px;
 }
-form {
-  padding-top: 20px;
-}
+
 .rendu {
-  justify-self: end;
+  background-color: pink;
+  justify-self: center;
 }
 textarea {
   border-radius: 20px;
   height: 100px;
-  width: 500px;
+  width: 410px;
   background-color: rgba(255, 255, 255, 0.473);
   border: none;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
@@ -133,8 +180,9 @@ textarea {
 
 #image-container {
   background-color: rgba(255, 255, 255, 0.408);
-  height: 500px;
-  width: 500px;
-  margin-top: 2rem;
+  height: 245px;
+  width: 245px;
+  border-radius: 3px;
+  overflow: hidden;
 }
 </style>

@@ -46,6 +46,7 @@ const router = createRouter({
       path: "/Prompt",
       name: "Prompt",
       component: () => import("../views/formulaire/Prompt.vue"),
+      meta: { hideFooter: true, navbarId: "nav2" },
     },
     {
       path: "/CreationResultat",
