@@ -1,12 +1,19 @@
 const OpenAI = require("openai");
 const downloadImage = require("../utils/downloadImage");
+const sanitize = require("../utils/sanitize");
 
 const openai = new OpenAI({
   apiKey: process.env.OpenAiKey,
 });
 
+//? da du site:
+const style =
+  ", dans un style animation 3d, avec couleurs dominantes orange, jaune, rouge";
+
 async function testChat(prompt) {
+  const prompt = sanitize(prompt);
   try {
+    const prompt = `${prompt.trim().replace(/\.$/, "")}, ${style}`;
     const response = await openai.images.generate({
       model: "dall-e-3",
       prompt: prompt,
@@ -16,7 +23,7 @@ async function testChat(prompt) {
     });
 
     const imageUrl = response.data[0].url;
-    //téléchargement
+    //téléchargement local
     const imgName = `image-${Date.now()}.jpg`;
     const localPath = `/downloads/${imgName}`;
     await downloadImage(imageUrl, imgName);

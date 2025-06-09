@@ -1,4 +1,4 @@
-const Post = require("../models/Post");
+/* const Post = require("../models/Post");
 
 class PostController {
   static async create(req, res) {
@@ -123,3 +123,4 @@ class PostController {
 }
 
 module.exports = PostController;
+ */

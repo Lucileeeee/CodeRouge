@@ -102,11 +102,12 @@ model Resultat {
   @@map("resultat")
 }
 
-
 model Image {
-  id     Int    @id @default(autoincrement())
-  url    String
-  prompt String
+  id          Int      @id @default(autoincrement())
+  url         String
+  prompt      String
+  localPath   String?  // Ajout du chemin local
+  dateCreation DateTime @default(now()) // Ajout de la date de création
 
   // Relations
   questions Question[]
