@@ -4,3 +4,4 @@ function sanitize(data) {
     .replace(/[`$]/g, "")
     .trim();
 }
+module.exports = sanitize;

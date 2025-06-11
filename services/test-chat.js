@@ -11,12 +11,12 @@ const style =
   ", dans un style animation 3d, avec couleurs dominantes orange, jaune, rouge";
 
 async function testChat(prompt) {
-  const prompt = sanitize(prompt);
+  const cleanPrompt = sanitize(prompt);
   try {
-    const prompt = `${prompt.trim().replace(/\.$/, "")}, ${style}`;
+    const finalPrompt = `${cleanPrompt.trim().replace(/\.$/, "")}, ${style}`;
     const response = await openai.images.generate({
       model: "dall-e-3",
-      prompt: prompt,
+      prompt: finalPrompt,
       size: "1024x1024",
       quality: "standard",
       n: 1,

@@ -16,9 +16,9 @@ router.get("/", ImageController.getAll);
 router.get("/user/my-images", authenticateToken, ImageController.getMyImages);
 router.post(
   "/generate",
-  authenticateToken,
+  //authenticateToken,
   validateImageGeneration,
-  rateLimitGeneration, // Optionnel: limite le nombre de générations
+  // rateLimitGeneration, //  limite le nombre de générations
   ImageController.generate
 );
 router.delete(
