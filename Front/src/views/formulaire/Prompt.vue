@@ -4,7 +4,7 @@
       <p>Résultat :</p>
       <p v-if="error" class="error-message">{{ messageError }}</p>
       <div id="image-container">
-        <p v-if="loading">Chargement...</p>
+        <p v-if="loading">Ça arrive, sois patient.e ...</p>
         <img
           v-if="imageUrl"
           :src="imageUrl"
@@ -39,8 +39,9 @@
           required
           placeholder="ex : C’est une jeune femme dans sa salle de bain qui se brosse les dents. Elle a les cheveux enrouler dans une serviette et elle porte un peignoire en eponge."
         ></textarea>
-        <div class="Ombre hoverOmbre" id="boutonForm">
+        <div class="Ombre hoverOmbre" id="boutonForm" v-if="!imageGenerated">
           <input
+            :disabled="loading"
             class="bouton"
             type="submit"
             value="Envoyer ma Description"
@@ -48,6 +49,11 @@
           />
         </div>
       </form>
+      <div v-if="imageGenerated" class="Ombre hoverOmbre next">
+        <button @click="goToNextStep" class="bouton" type="button">
+          Étape suivante
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +65,7 @@ const prompt = ref("");
 const messageError = ref("");
 const imageUrl = ref("");
 const loading = ref(false);
+const imageGenerated = ref(false);
 
 let currentStape = ref(2);
 
@@ -68,7 +75,7 @@ const envoyerForm = async () => {
   loading.value = true;
 
   try {
-    const response = await fetch("http://localhost:3000/api/test-chat", {
+    const response = await fetch("http://localhost:3000/api/image/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,8 +87,9 @@ const envoyerForm = async () => {
 
     if (data.error) {
       messageError.value = data.error;
-    } else if (data.localPath) {
-      imageUrl.value = `http://localhost:3000${data.localPath}`;
+    } else if (data.success && data.data.url) {
+      imageUrl.value = data.data.url;
+      imageGenerated.value = true;
     } else {
       messageError.value = "problème de connexion avec le serveur.";
     }
@@ -96,11 +104,15 @@ const envoyerForm = async () => {
 
 <style scoped>
 .col-2 {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto;
   gap: 90px;
   margin-right: 5%;
 }
-
+.next {
+  grid-column: 2;
+}
 #pagination {
   height: 200px;
   min-width: 38px;

@@ -251,9 +251,9 @@ function upToTheNextOne() {
   border-radius: 50px;
   background-color: rgba(255, 255, 255, 0.79);
   color: #ff6c03;
-  letter-spacing: 2px;
-  font-weight: 500;
-  letter-spacing: 0.1rem;
+  font-weight: 400;
+  /*     letter-spacing: -0.01rem;
+ */
   border: 1px solid #ff6c03;
   display: flex;
   flex-direction: column;
