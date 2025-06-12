@@ -1,7 +1,3 @@
-// middleware/auth.js
-const cors = require("cors");
-const prisma = require("../config/database");
-
 // Configuration CORS stricte
 const corsOptions = {
   origin: ["http://localhost:5173"], // Seul le front est autorisé

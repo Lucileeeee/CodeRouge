@@ -1,6 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const ImageController = require("../controllers/ImageController");
+
+// Routes simples, pas d’auth, pas de middlewares
+router.get("/", ImageController.getAll);
+router.post("/generate", ImageController.generate);
+router.get("/:id", ImageController.getById);
+router.delete("/:id", ImageController.delete);
+
+module.exports = router;
+
+/* const express = require("express");
+const router = express.Router();
+const ImageController = require("../controllers/ImageController");
 const { authenticateToken } = require("../middleware/auth");
 const {
   validateImageGeneration,
@@ -32,4 +44,4 @@ router.delete(
 // Routes avec paramètres - EN DERNIER
 router.get("/:id", validateImageParams, ImageController.getById);
 
-module.exports = router;
+module.exports = router; */
