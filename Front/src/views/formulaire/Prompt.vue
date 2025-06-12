@@ -87,8 +87,8 @@ const envoyerForm = async () => {
 
     if (data.error) {
       messageError.value = data.error;
-    } else if (data.success && data.data.url) {
-      imageUrl.value = data.data.url;
+    } else if (data.success && data.data.dalleUrl) {
+      imageUrl.value = data.data.dalleUrl;
       imageGenerated.value = true;
     } else {
       messageError.value = "problème de connexion avec le serveur.";
@@ -101,7 +101,10 @@ const envoyerForm = async () => {
   }
 };
 </script>
-
+<!-- todo
+1) il faut que la fonction soit enclencher au click sur le bouton, pas des qu'on tape dans l'input, 
+2) le bouton doit disparaitre, pas juste desabled dès qu'on click et qu'on envoi le prompt, pas quand on reçoit la réponse
+-->
 <style scoped>
 .col-2 {
   display: grid;
