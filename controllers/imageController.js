@@ -6,30 +6,26 @@ class ImageController {
   static async generate(req, res) {
     try {
       const { prompt } = req.body;
-
       if (!prompt) {
         return res.status(400).json({ error: "Le prompt est requis" });
       }
-
-      // Génération de l'image via le service
+      // On appelle le service
       const imageData = await testChat(prompt);
 
-      // Sauvegarde en base de données
+      // Sauvegarde en bdd
       const newImage = await prisma.image.create({
         data: {
           prompt: prompt,
-          url: imageData.url,
-          localPath: imageData.localPath,
+          url: imageData.supabaseUrl,
         },
       });
-
       res.json({
         success: true,
         data: {
           id: newImage.id,
           url: newImage.url,
-          localPath: newImage.localPath,
           prompt: newImage.prompt,
+          dalleUrl: imageData.dalleUrl,
         },
       });
     } catch (error) {

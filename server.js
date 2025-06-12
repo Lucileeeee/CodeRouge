@@ -19,7 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 
 //static files
 app.use(express.static("public"));
-app.use("/downloads", express.static("downloads"));
 
 //routes api
 app.use("/api", routes);

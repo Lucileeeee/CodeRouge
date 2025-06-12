@@ -5,3 +5,6 @@ const prisma = new PrismaClient({
 });
 
 module.exports = prisma;
+/*
+Note : comme ton projet est en CommonJS (require), on utilise module.exports.
+require pas sure */

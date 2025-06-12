@@ -1,5 +1,5 @@
 const OpenAI = require("openai");
-const downloadImage = require("../utils/downloadImage");
+const downloadAndUploadImage = require("../utils/downloadImage");
 const sanitize = require("../utils/sanitize");
 
 const openai = new OpenAI({
@@ -13,7 +13,7 @@ const style =
 async function testChat(prompt) {
   const cleanPrompt = sanitize(prompt);
   try {
-    const finalPrompt = `${cleanPrompt.trim().replace(/\.$/, "")}, ${style}`;
+    const finalPrompt = `${cleanPrompt.replace(/\.$/, "")}, ${style}`;
     const response = await openai.images.generate({
       model: "dall-e-3",
       prompt: finalPrompt,
@@ -25,13 +25,13 @@ async function testChat(prompt) {
     const imageUrl = response.data[0].url;
     //téléchargement local
     const imgName = `image-${Date.now()}.jpg`;
-    const localPath = `/downloads/${imgName}`;
-    await downloadImage(imageUrl, imgName);
+    const publicUrl = await downloadAndUploadImage(imageUrl, imgName);
     return {
-      url: imageUrl,
-      localPath: localPath,
+      supabaseUrl: publicUrl,
+      dalleUrl: imageUrl,
     };
   } catch (error) {
+    console.error("Erreur complète API Dalle :", error);
     console.error("Erreur API Dalle :", error.message);
     throw new Error("from back: Impossible de générer l’image.");
   }

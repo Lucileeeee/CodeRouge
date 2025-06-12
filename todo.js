@@ -1,11 +1,11 @@
 //todo liste :
-//? voir limite de caractere pour le prompt et condition dans le middlewar/image et bdd cohérente
-//! 2) style à concaténer/bloquer au reste des requêtes
-//? "animation 3d couleurs orange, rouge, jaune, dominantes"
+
+//!1) BDD: revoir les tables d'associations sont pas bonne cf le sql
+
+//! 2) voir limite de caractere pour le prompt et condition dans le middlewar/image et bdd cohérente
 
 //! 3) enregistrement automatique en bdd de la reponse url + le prompt
 //? revoir model et controller image
-//? une fonction sanitezd + gestion d'erreur
 
 /* ?
 Controller (controllers/ImageController.js)
