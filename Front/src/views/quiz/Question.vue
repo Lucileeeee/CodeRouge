@@ -95,6 +95,8 @@
 import { computed, watch, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 
+//import '/src/style.css' <- a ajouter pour le test
+
 import { ref } from 'vue'
 import { quiz } from './ObjetQuiz.vue'
 import { useQuizStore } from '../../stores/quizStore'

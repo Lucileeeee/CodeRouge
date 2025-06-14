@@ -1,26 +1,22 @@
 <template>
-  <NavBar  :id="$route.meta.navbarId"></NavBar>
-    <main>
-      <router-view></router-view>
-    </main>
-  <Footer  v-if="!$route.meta.hideFooter"></Footer>
+  <Header :id="$route.meta.navbarId"></Header>
+  <main>
+    <router-view></router-view>
+  </main>
+  <Footer v-if="!$route.meta.hideFooter"></Footer>
 </template>
 
 <script setup>
-import { RouterView } from 'vue-router';
-import NavBar from './components/shared/NavBar.vue';
-import Footer from './components/shared/Footer.vue';
-
-
+import { RouterView } from "vue-router";
+import Header from "./components/shared/Header.vue";
+import Footer from "./components/shared/Footer.vue";
 </script>
 
-
-
 <style>
-body{
-  background: linear-gradient(45deg , #C297E3,#C2BCF9 70.71%);
+body {
+  background: linear-gradient(45deg, #c297e3, #c2bcf9 70.71%);
   background-repeat: no-repeat;
-  margin:0;
+  margin: 0;
   padding: 0;
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
@@ -37,7 +33,7 @@ a {
   text-decoration: none;
   color: white;
 }
-main{
+main {
   display: flex;
   flex-direction: column;
   align-items: center;

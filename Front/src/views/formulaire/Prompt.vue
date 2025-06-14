@@ -104,6 +104,8 @@ const envoyerForm = async () => {
 <!-- todo
 1) il faut que la fonction soit enclencher au click sur le bouton, pas des qu'on tape dans l'input, 
 2) le bouton doit disparaitre, pas juste desabled dès qu'on click et qu'on envoi le prompt, pas quand on reçoit la réponse
+3) set time out et texte qui change pour dire oui je sais mais tkt vraiment ça arrive
+
 -->
 <style scoped>
 .col-2 {
