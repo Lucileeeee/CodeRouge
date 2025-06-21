@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+model Utilisateur {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  nom     String
+  prenom  String
+  mdp     String
+  role    Role     @default(USER)
+  quizs   Quiz[]
+  quizsModifier UtilModifierQuiz[]
+  quizsPasser UtilPasserQuiz[]
+  resultats UtilResultat[]
+}
+
+model Quiz {
+  id         Int           @id @default(autoincrement())
+  createdAt  DateTime      @default(now())
+  titre      String
+  disponible  Boolean     @default(true)
+  autheur    Utilisateur @relation(fields: [autheurId], references: [id])
+  autheurId   Int
+  editeurs UtilModifierQuiz[] 
+  joueurs UtilPasserQuiz[]
+  questions Question[]
+}
+
+model Question {
+  id    Int    @id @default(autoincrement())
+  text  String
+  signalement Int @default(0)
+  disponible Boolean
+  quizs Quiz[]
+  reponses Reponse[]
+  image Image?
+}
+model Image {
+  id     Int    @id @default(autoincrement())
+  url    String
+  prompt String 
+  question Question @relation(fields: [questionId], references: [id])
+  questionId Int @unique
+  resultat Resultat @relation(fields: [resultatId], references: [id])
+  resultatId Int @unique
+}
+
+model Resultat {
+  id     Int    @id @default(autoincrement())
+  titre String
+  description String
+  resultat_score_min Int
+  resultat_score_max Int
+  image Image?
+  reponses Reponse[]
+  utilisateurs UtilResultat[]
+}
+model Reponse {
+  id     Int    @id @default(autoincrement())
+  text_reponse String
+  score_reponse Float
+  resultats Resultat[]
+  questions Question[]
+}
+
+model UtilModifierQuiz {
+  utilisateur Utilisateur  @relation(fields: [utilisateurId], references: [id])
+  utilisateurId Int
+  quiz Quiz @relation(fields: [quizId], references: [id])
+  quizId Int
+  date DateTime  @default(now())
+  @@id([utilisateurId, quizId])
+}
+model UtilPasserQuiz {
+  joueur Utilisateur  @relation(fields: [joueurId], references: [id])
+  joueurId Int
+  quiz Quiz @relation(fields: [quizId], references: [id])
+  quizId Int
+  date DateTime  @default(now())
+  @@id([joueurId, quizId])
+}
+model UtilResultat {
+  joueur Utilisateur  @relation(fields: [joueurId], references: [id])
+  joueurId Int
+  resultat Resultat @relation(fields: [resultatId], references: [id])
+  resultatId Int
+  date DateTime  @default(now())
+  @@id([joueurId, resultatId])
+}

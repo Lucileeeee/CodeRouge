@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Utilisateur {
+  id          Int      @id @default(autoincrement())
+  nom         String
+  prenom      String
+  email       String   @unique
+  motDePasse  String
+
+  // Relations
+  roles       Role[]
+  quizzes     Quiz[]           // Quiz créés par cet utilisateur
+
+  @@map("utilisateur")
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  nom  String
+
+  // Relations
+  utilisateurs Utilisateur[]
+
+  @@map("role")
+}
+
+model Quiz {
+  id               Int       @id @default(autoincrement())
+  titre            String
+  disponible       Boolean   @default(true)
+  dateCreation     DateTime  @default(now())
+  datePassage      DateTime  @default(now())
+  dateModification DateTime  @updatedAt
+
+  // Clé étrangère (obligatoire pour Prisma)
+  auteurId         Int
+  // Relations
+  auteur           Utilisateur    @relation(fields: [auteurId], references: [id])
+  questions        Question[]
+  resultats        Resultat[]
+  @@map("quiz")
+}
+
+model Question {
+  id              Int     @id @default(autoincrement())
+  texte           String
+  disponible      Boolean @default(true)
+  nbSignalement   Int     @default(0)
+
+  // Clés étrangères (obligatoires pour Prisma)
+  quizId          Int
+  imageId         Int?
+  // Relations
+  quiz            Quiz       @relation(fields: [quizId], references: [id])
+  image           Image?     @relation(fields: [imageId], references: [id])
+  reponses        Reponse[]
+
+  @@map("question")
+}
+
+model Reponse {
+  id       Int   @id @default(autoincrement())
+  texte    String
+  score    Float
+
+  // Clé étrangère (obligatoire pour Prisma)
+  questionId Int
+  // Relations
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@map("reponse")
+}
+
+model Resultat {
+  id            Int     @id @default(autoincrement())
+  titre         String
+  description   String
+  scoreMin      Int
+  scoreMax      Int
+  nbSignalement Int     @default(0)
+
+  // Clés étrangères (obligatoires pour Prisma)
+  quizId        Int
+  imageId       Int?
+  // Relations
+  quiz          Quiz          @relation(fields: [quizId], references: [id])
+  image         Image?        @relation(fields: [imageId], references: [id])
+
+  @@map("resultat")
+}
+
+model Image {
+  id          Int      @id @default(autoincrement())
+  url         String
+  prompt      String
+  dateCreation DateTime @default(now()) // Ajout de la date de création
+
+  // Relations
+  questions Question[]
+  resultats Resultat[]
+  @@map("image")
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test DALL·E</title>
+  </head>
+  <body>
+    <h1>Générateur d’image avec DALL·E</h1>
+
+    <form id="prompt-form">
+      <textarea
+        id="prompt"
+        placeholder="Décris ton image ici..."
+        rows="4"
+        cols="50"
+        required
+      ></textarea>
+      <br />
+      <button type="submit">Générer</button>
+    </form>
+
+    <p id="error" style="color: red"></p>
+
+    <div id="image-container"></div>
+
+    <script>
+      const form = document.getElementById("prompt-form");
+      const errorP = document.getElementById("error");
+      const imageContainer = document.getElementById("image-container");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorP.textContent = "";
+        imageContainer.innerHTML = "Chargement...";
+
+        const prompt = document.getElementById("prompt").value;
+
+        try {
+          const response = await fetch("/api/test-chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt }),
+          });
+          // Log de tout l’objet Response (status, headers, etc.)
+          console.log("Response HTTP:", response);
+
+          const data = await response.json();
+
+          // Log du JSON retourné par le serveur
+          console.log("Data JSON:", data);
+
+          if (data.error) {
+            errorP.textContent = data.error;
+            imageContainer.innerHTML = "";
+          } else if (data.localPath) {
+            // utilise bien localPath pour afficher l'image téléchargée
+            imageContainer.innerHTML = `<img src="${data.localPath}" alt="Image générée" width="512" />`;
+          } else {
+            errorP.textContent = "Réponse invalide du serveur.";
+            imageContainer.innerHTML = "";
+          }
+        } catch (err) {
+          console.error(err);
+          errorP.textContent = "Erreur lors de la génération de l’image.";
+          imageContainer.innerHTML = "";
+        }
+      });
+    </script>
+  </body>
+</html>
