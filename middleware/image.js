@@ -1,7 +1,19 @@
-const prisma = require("../config/database");
+const {
+  PromptSchema,
+} = require("../prisma/generated/schemas-js/imagePrompt.schema");
+
+module.exports = function validateImage(req, res, next) {
+  try {
+    req.body = PromptSchema.parse(req.body);
+    next();
+  } catch (error) {
+    console.error("Erreur de validation Zod :", error);
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // Middleware pour valider les données de génération d'image
-const validateImageGeneration = (req, res, next) => {
+/* const validateImageGeneration = (req, res, next) => {
   const { prompt } = req.body;
 
   // Vérification du prompt
@@ -158,3 +170,4 @@ module.exports = {
   rateLimitGeneration,
   validateImageParams,
 };
+ */

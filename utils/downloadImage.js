@@ -1,5 +1,5 @@
 const axios = require("axios");
-const supabase = require("../config/supabase");
+const { supabaseAdmin } = require("../config/supabase");
 
 async function downloadAndUploadImage(imageUrl, filename) {
   try {
@@ -13,10 +13,10 @@ async function downloadAndUploadImage(imageUrl, filename) {
     // 2. Upload direct dans Supabase Storage
     console.log("3. Upload vers bucket image-dalle, filename:", filename);
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabaseAdmin.storage
       .from("image-dalle")
       .upload(filename, buffer, {
-        contentType: "image/jpeg",
+        contentType: "image/png",
         upsert: true,
       });
     if (error) {
@@ -27,7 +27,7 @@ async function downloadAndUploadImage(imageUrl, filename) {
     // 3. Récupérer URL publique
     const {
       data: { publicUrl },
-    } = supabase.storage.from("image-dalle").getPublicUrl(filename);
+    } = supabaseAdmin.storage.from("image-dalle").getPublicUrl(filename);
     console.log("6. URL publique générée:", publicUrl);
     return publicUrl;
   } catch (error) {

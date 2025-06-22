@@ -70,7 +70,6 @@ CREATE TABLE "Utilisateur" (
     "prenom" TEXT NOT NULL,
     "mdp" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
-
     CONSTRAINT "Utilisateur_pkey" PRIMARY KEY ("id")
 );
 
@@ -102,7 +101,6 @@ CREATE TABLE "Image" (
     "prompt" TEXT NOT NULL,
     "questionId" INTEGER NOT NULL,
     "resultatId" INTEGER NOT NULL,
-
     CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );
 

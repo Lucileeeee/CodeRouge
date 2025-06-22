@@ -6,7 +6,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Middleware de vérification d'origine
+// vérification d'origine
 const checkOrigin = (req, res, next) => {
   const origin = req.get("origin") || req.get("referer");
   // Vérifier que la requête vient bien de votre front

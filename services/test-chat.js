@@ -20,9 +20,7 @@ async function testChat(prompt) {
       quality: "standard",
       n: 1,
     });
-
     const imageUrl = response.data[0].url;
-
     return {
       dalleUrl: imageUrl,
     };
