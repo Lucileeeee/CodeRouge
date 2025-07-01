@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="rendu">
-      <p>Résultat :</p>
+      <p>Titre du Quiz</p>
       <p v-if="error" class="error-message">{{ messageError }}</p>
       <div id="image-container">
         <p v-if="loading">Ça arrive, sois patient.e ...</p>
@@ -28,18 +28,23 @@
       </div>
       <form @submit.prevent="envoyerForm">
         <label for="prompt" class="explication">
-          Décris l’image que tu veux pour illustrer cette question :
+          3 - Prompt Image Illustration
         </label>
         <textarea
           id="prompt"
           v-model="prompt"
           name="promptQuestion"
+          :disabled="loading"
           rows="5"
           cols="50"
           required
           placeholder="ex : C’est une jeune femme dans sa salle de bain qui se brosse les dents. Elle a les cheveux enrouler dans une serviette et elle porte un peignoire en eponge."
         ></textarea>
-        <div class="Ombre hoverOmbre" id="boutonForm" v-if="!imageGenerated">
+        <div
+          class="Ombre hoverOmbre"
+          id="boutonForm"
+          v-if="!imageGenerated || !loading"
+        >
           <input
             :disabled="loading"
             class="bouton"
@@ -84,7 +89,6 @@ const envoyerForm = async () => {
     });
     const data = await response.json();
     console.log("data: ", data);
-
     if (data.error) {
       messageError.value = data.error;
     } else if (data.success && data.data.dalleUrl) {
@@ -170,8 +174,8 @@ const envoyerForm = async () => {
 }
 
 .rendu {
-  background-color: pink;
   justify-self: center;
+  text-align: center;
 }
 textarea {
   border-radius: 20px;
@@ -187,7 +191,7 @@ textarea {
   font-family: "Rubik", sans-serif;
   font-size: 1rem;
   line-height: normal;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .error-message {

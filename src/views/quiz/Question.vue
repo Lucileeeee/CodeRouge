@@ -109,7 +109,7 @@ const userAnswers = ref(new Array(quiz.length).fill(null))
 const imageOpacity = ref( "1");
 const boutonSuivant = ref(false);
 
-// Fonctions utilitaires
+// Fonctions booléen
 function hasAnswer(questionIndex = currentQuestionIndex.value) {
   const reponse = userAnswers.value[questionIndex]
   return reponse !== undefined && reponse !== null
