@@ -1,8 +1,8 @@
 <script>
 import { ref } from "vue";
-import yeuxDoux from "@/assets/images_DallE/yeux_doux.jpeg";
-import mami_metro from "@/assets/images_DallE/mami_metro.jpeg";
-import clope from "@/assets/images_DallE/clope.jpeg";
+import yeuxDoux from "@/assets/Images_DallE/yeux_doux.jpeg";
+import mami_metro from "@/assets/Images_DallE/mami_metro.jpeg";
+import clope from "@/assets/Images_DallE/clope.jpeg";
 
 // todo ajouter image avec alt à question
 export const quiz = ref([
