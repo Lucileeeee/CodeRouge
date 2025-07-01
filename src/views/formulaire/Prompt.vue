@@ -43,7 +43,7 @@
         <div
           class="Ombre hoverOmbre"
           id="boutonForm"
-          v-if="!imageGenerated || !loading"
+          v-if="!imageGenerated && !loading"
         >
           <input
             :disabled="loading"
